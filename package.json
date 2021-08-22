@@ -1,6 +1,6 @@
 {
   "name": "haosj",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Rabbit cute",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,6 +25,8 @@
     "url": "https://github.com/karnhao/haosj"
   },
   "dependencies": {
-    "@types/node": "^16.7.1"
+    "@types/node": "^16.7.1",
+    "@types/node-fetch": "^2.5.12",
+    "node-fetch": "^2.6.1"
   }
 }

@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 export class Subject {
     private width: number = 0;
     private startTime: number = 0;
@@ -89,14 +90,13 @@ export class Subject {
      * @returns {string} รหัสวิชาในรูปแบบที่ให้ ai อ่าน.
      */
     public getLocaleSpeakId(): string {
-        return "Comming soon!";
-        // return this.id ? ((inp) => {
-        //     let out = "";
-        //     inp.forEach((t) => {
-        //         out += isNaN(Number(t)) ? `${t}_,` : `${t}`;
-        //     });
-        //     return out.replaceAll("", " ").trim();
-        // })(this.id.replaceAll("", " ").trim().split(" ")) : "ไม่มีข้อมูล";
+        return this.id ? ((inp) => {
+            let out = "";
+            inp.forEach((t) => {
+                out += isNaN(Number(t)) ? `${t}_,` : `${t}`;
+            });
+            return out.replaceAll("", " ").trim();
+        })(this.id.replaceAll("", " ").trim().split(" ")) : "ไม่มีข้อมูล";
     }
     /**
      *
@@ -243,7 +243,7 @@ export class ClassData {
      */
     public static get(): SubjectDay[];
     public static get(day?: number): SubjectDay | SubjectDay[] {
-        if (day) return SubjectDay.get(day);
+        if (day != null) return SubjectDay.get(day);
         return SubjectDay.get();
     }
     /**
@@ -565,18 +565,18 @@ export function update(data: any, showMessage: boolean = false): void {
     currentPariod = currentSubjectDay.getPeriodByTime(currentMinutes);
     currentSubject = currentSubjectDay.getSubject(currentPariod);
 }
-// /**
-//  * @param {string} url default = https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
-//  * @param {boolean} showMessage default = false
-//  */
-// export async function useUrlData(url: string = "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage: boolean = false): Promise<void> {
-//     return new Promise(async (resolve) => {
-//         let x = await fetch(url, {
-//             "method": "GET"
-//         }).then((res) => res.json(), () => {
-//             throw new Error("โหลดไฟล์ล้มเหลว.");
-//         });
-//         update(x, showMessage);
-//         resolve();
-//     });
-// }
+/**
+ * @param {string} url default = https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
+ * @param {boolean} showMessage default = false
+ */
+export async function useUrlData(url: string = "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage: boolean = false): Promise<void> {
+    return new Promise(async (resolve) => {
+        let x = await fetch(url, {
+            "method": "GET"
+        }).then((res) => res.json(), () => {
+            throw new Error("โหลดไฟล์ล้มเหลว.");
+        });
+        update(x, showMessage);
+        resolve();
+    });
+}

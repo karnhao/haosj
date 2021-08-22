@@ -266,3 +266,8 @@ export declare function getTimeMinute(date: Date): number;
  * @param {Boolean} showMessage false is default.
  */
 export declare function update(data: any, showMessage?: boolean): void;
+/**
+ * @param {string} url default = https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
+ * @param {boolean} showMessage default = false
+ */
+export declare function useUrlData(url?: string, showMessage?: boolean): Promise<void>;
