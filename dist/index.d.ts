@@ -1,1 +1,1 @@
-export { gradeCal } from './test.js';
+export * from "./class_data.js";

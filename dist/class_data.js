@@ -1,94 +1,97 @@
 export class Subject {
-    private width: number = 0;
-    private startTime: number = 0;
-    private period: number | null = -1;
-    private name: string | null = "";
-    private id: string | null = "";
-    private roomId: string | null = "";
-    private teacher: string[] | null = [];
-    private classroom: string | null = null;
-    private meet: string | null = null;
-    constructor(name?: string) {
-        if (name) this.name = name;
+    width = 0;
+    startTime = 0;
+    period = -1;
+    name = "";
+    id = "";
+    roomId = "";
+    teacher = [];
+    classroom = null;
+    meet = null;
+    constructor(name) {
+        if (name)
+            this.name = name;
     }
     /**
      *
      * @param {string} id รหัสวิชา.
      */
-    public setId(id: string): void {
+    setId(id) {
         this.id = id;
     }
     /**
      *
      * @param {string} name ชื่อวิชา.
      */
-    public setName(name: string): void {
-        if (typeof name != "string") throw new TypeError("Parameter ต้องเป็น string.");
+    setName(name) {
+        if (typeof name != "string")
+            throw new TypeError("Parameter ต้องเป็น string.");
         this.name = name;
     }
     /**
      *
      * @param  {string[]} teacher รายชื่อครูประจำวิชา (array).
      */
-    public setTeacher(teacher: string[]): void {
+    setTeacher(teacher) {
         this.teacher = teacher;
     }
     /**
      *
      * @param {string} roomId ชื่อห้องเรียนหรือรหัสห้องเรียน.
      */
-    public setRoomId(roomId: string): void {
+    setRoomId(roomId) {
         this.roomId = roomId;
     }
     /**
      *
      * @param {number} number ระยะเวลาเรียน หน่วยเป็นนาที.
      */
-    public setWidth(number: number): void {
+    setWidth(number) {
         this.width = number;
     }
     /**
      * @param {number} number หมายเลขคาบในวิชา.
      */
-    public setPeriod(number: number | null): void {
-        if (!Number.isInteger(number) && number) throw new TypeError(`Parameter ต้องเป็นตัวเลขที่เป็นจำนวนเต็มเท่านั้น. : ${number}`);
+    setPeriod(number) {
+        if (!Number.isInteger(number) && number)
+            throw new TypeError(`Parameter ต้องเป็นตัวเลขที่เป็นจำนวนเต็มเท่านั้น. : ${number}`);
         this.period = number;
     }
     /**
      * @param {number} time เวลาในหน่วยนาที นับตั้งแต่ 0:00น.
      */
-    public setStartTime(time: number): void {
+    setStartTime(time) {
         this.startTime = time;
     }
     /**
      *
      * @param {string} url url ห้องเรียน
      */
-    public setClassroomUrl(url: string): void {
+    setClassroomUrl(url) {
         this.classroom = url;
     }
     /**
      *
      * @param {string} url url เข้าห้องประชุม
      */
-    public setMeetUrl(url: string): void {
+    setMeetUrl(url) {
         this.meet = url;
     }
     /**
      *
      * @returns {string} รหัสวิชา
      */
-    public getId(): string | null {
+    getId() {
         return this.id;
     }
-    public getLocaleId(): string {
+    getLocaleId() {
         return this.id ? this.id : "";
     }
     /**
      *
      * @returns {string} รหัสวิชาในรูปแบบที่ให้ ai อ่าน.
      */
-    public getLocaleSpeakId(): string {
+    getLocaleSpeakId() {
         return "Comming soon!";
         // return this.id ? ((inp) => {
         //     let out = "";
@@ -102,30 +105,31 @@ export class Subject {
      *
      * @returns {string} ชื่อวิชา
      */
-    public getName(): string | null {
+    getName() {
         return this.name;
     }
     /**
      *
      * @returns {string} ชื่อวิชา
      */
-    public getLocaleName(): string {
+    getLocaleName() {
         return this.name ? this.name : "";
     }
     /**
      *
      * @returns รายชื่อครูประจำวิชา (array).
      */
-    public getTeacher(): string[] | null {
+    getTeacher() {
         return this.teacher;
     }
     /**
      *
      * @returns รายชื่อครูประจำวิชาในภาษามนุษย์ทั่วไป
      */
-    public getLocaleTeacherName(): string {
+    getLocaleTeacherName() {
         let t_arr = this.teacher;
-        if (!t_arr) return "";
+        if (!t_arr)
+            return "";
         let out = "";
         for (let i = 0; i < t_arr.length; i++) {
             out += (i == t_arr.length - 1) ? `${t_arr[i]}` : (i == t_arr.length - 2) ? `${t_arr[i]} และ ` : `${t_arr[i]}, `;
@@ -136,14 +140,14 @@ export class Subject {
      *
      * @returns ชื่อห้องเรียนหรือรหัสห้องเรียน.
      */
-    public getRoomId(): string | null {
+    getRoomId() {
         return this.roomId;
     }
     /**
      *
      * @returns {string}
      */
-    public getLocaleRoomId(): string {
+    getLocaleRoomId() {
         let ins = this.getRoomId();
         if (!ins)
             return "";
@@ -157,47 +161,47 @@ export class Subject {
      *
      * @returns {number} ระยะเวลาเรียน หน่วยเป็นนาที.
      */
-    public getWidth(): number {
+    getWidth() {
         return this.width;
     }
     /**
      *
      * @returns {number} หมายเลขคาบในวิชา.
      */
-    public getPeriod(): number | null {
+    getPeriod() {
         return this.period;
     }
-    public getLocalePeriod(): string {
+    getLocalePeriod() {
         return this.period ? (this.period + 1).toString() : "";
     }
     /**
      *
      * @returns {number} เวลาเมื่อเริ่มต้นคาบเรียนในรูปแบบนาทีที่นับตั้งแต่ 0:00น.
      */
-    public getStartTime(): number {
+    getStartTime() {
         return this.startTime;
     }
-    public getLocaleStartTime(): string {
+    getLocaleStartTime() {
         return getLocalTimeStringFromMinute(this.getStartTime());
     }
     /**
      *
      * @returns {number} เวลาเมื่อจบคาบเรียนในรูปแบบนาทีที่นับตั้งแต่ 0:00น.
      */
-    public getEndTime(): number {
+    getEndTime() {
         return this.startTime + this.width;
     }
-    public getLocaleEndTime(): string {
+    getLocaleEndTime() {
         return getLocalTimeStringFromMinute(this.getEndTime());
     }
-    public getLocaleTime(): string {
+    getLocaleTime() {
         return `${this.getLocaleStartTime()}-${this.getLocaleEndTime()}`;
     }
     /**
      * ส่งกลับข้อความที่เป็นภาษามนุษย์
      * @returns {string} ข้อความที่มนุษย์อ่านได้
      */
-    public getLocaleString(): string {
+    getLocaleString() {
         return ` คาบที่ ${this.getLocalePeriod()} ของวัน.\n เรียนวิชา : ${this.getName()}.\n รหัส : ${this.getLocaleId()}\n`
             + ` เรียนที่ : ${this.getLocaleRoomId()}\n`
             + ` ตั้งแต่เวลา : ${this.getLocaleStartTime()} น. ถึง ${this.getLocaleEndTime()} น.\n เป็นเวลา : ${this.getWidth()} นาที.\n`
@@ -207,43 +211,32 @@ export class Subject {
      * ส่งกลับข้อความสำหรับให้ ai อ่าน.
      * @returns {string} ข้อความที่มนุษย์อ่านได้.
      */
-    public getLocaleSpeakString(): string {
+    getLocaleSpeakString() {
         return ` คาบที่ ${this.getLocalePeriod()} ของวัน.\n ` + (this.name ? `เรียนวิชา : ${this.getName()}.\n` : '') + (this.id ? ` รหัส : ${this.getLocaleSpeakId()}\n` : '')
             + (this.roomId ? ` เรียนที่ : ${this.getLocaleRoomId()}\n` : '')
             + ` ตั้งแต่เวลา : ${this.getLocaleStartTime()} น. ถึง ${this.getLocaleEndTime()} น.\n เป็นเวลา : ${this.getWidth()} นาที.`
             + (this.teacher ? `\n ครูผู้สอนคือ : ${this.getLocaleTeacherName()}.` : '');
     }
-    public getClassroomUrl(): string | null {
+    getClassroomUrl() {
         return this.classroom;
     }
-    public getMeetUrl(): string | null {
+    getMeetUrl() {
         return this.meet;
     }
-    public getStartTimeDate(): Date {
+    getStartTimeDate() {
         return getDateFromMinute(this.getStartTime());
     }
 }
 export class ClassData {
-    private static data = {
+    static data = {
         startTime: 0,
         classId: '',
         className: '',
         nullSubject: new Subject()
     };
-    /**
-     * 
-     * @param {Number} day ตัวเลขจำนวนเต็ม. 
-     * @returns {SubjectDay} จะส่งค่ากลับแบบ SubjectDay.
-     */
-    public static get(day: number): SubjectDay;
-    /**
-     * 
-     * @param {Number} day ตัวเลขจำนวนเต็ม. 
-     * @returns {SubjectDay[]} จะส่งค่ากลับในรูปแบบ Array.
-     */
-    public static get(): SubjectDay[];
-    public static get(day?: number): SubjectDay | SubjectDay[] {
-        if (day) return SubjectDay.get(day);
+    static get(day) {
+        if (day)
+            return SubjectDay.get(day);
         return SubjectDay.get();
     }
     /**
@@ -252,7 +245,7 @@ export class ClassData {
      * @param {any} json ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    public static setData(json: any, showMessage: boolean = false): void {
+    static setData(json, showMessage = false) {
         // this.setStartTime(json.startTime);
         this.setClassId(json.classId);
         this.setClassName(json.className);
@@ -305,28 +298,28 @@ export class ClassData {
      * @deprecated
      * @param {number} number เวลาเริ่มต้นคาบแรก นับตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.
      */
-    public static setStartTime(number: number): void {
+    static setStartTime(number) {
         this.data.startTime = number;
     }
     /**
      *
      * @param {string} id id ห้องเรียน.
      */
-    public static setClassId(id: string): void {
+    static setClassId(id) {
         this.data.classId = id;
     }
     /**
      *
      * @param {string} name ชื่อห้องเรียน.
      */
-    public static setClassName(name: string): void {
+    static setClassName(name) {
         this.data.className = name;
     }
     /**
      *
      * @param {Subject} subject วิชาว่าง
      */
-    public static setNullSubject(subject: Subject): void {
+    static setNullSubject(subject) {
         this.data.nullSubject = subject;
     }
     /**
@@ -334,7 +327,7 @@ export class ClassData {
      * @param {Date} date วัน.
      * @returns {Subject} วิชา.
      */
-    public static getSubjectByDate(date: Date): Subject | null {
+    static getSubjectByDate(date) {
         return this.get(date.getDay()).getSubjectByTime(getTimeMinute(date));
     }
     /**
@@ -342,47 +335,46 @@ export class ClassData {
      * @returns startTime
      * @deprecated
      */
-    public static getStartTime(): number {
+    static getStartTime() {
         return this.data.startTime;
     }
-    public static getClassName(): string {
+    static getClassName() {
         return this.data.className;
     }
-    public static getClassId(): string {
+    static getClassId() {
         return this.data.classId;
     }
     /**
      *
      * @returns {Subject} วิชาว่าง.
      */
-    public static getNullSubject(): Subject {
+    static getNullSubject() {
         return this.data.nullSubject;
     }
 }
 export class SubjectDay {
-    constructor(day: number) {
-        if (!Number.isInteger(day)) throw new TypeError("Parameter ต้องเป็นจำนวนเต็ม");
+    constructor(day) {
+        if (!Number.isInteger(day))
+            throw new TypeError("Parameter ต้องเป็นจำนวนเต็ม");
         this.day = day;
     }
-    private subject: Subject[] = [];
-    private day: number;
-    private startTime: number = 0;
-    private static sd: SubjectDay[] = (function () {
+    subject = [];
+    day;
+    startTime = 0;
+    static sd = (function () {
         let out = [];
         for (let i = 0; i < 7; i++) {
             out.push(new SubjectDay(i));
         }
         return out;
     })();
-    public static get(day: number): SubjectDay;
-    public static get(): SubjectDay[];
-    public static get(day?: number): any {
+    static get(day) {
         return day != null ? this.sd[Math.floor(day)] : this.sd;
     }
     /**
      * อัพเดตเวลาแต่ละคาบของทุกวัน.
      */
-    public static update(): void {
+    static update() {
         this.sd.forEach((t) => {
             t.update();
         });
@@ -391,7 +383,7 @@ export class SubjectDay {
      * อัพเดตเวลาแต่ละคาบของวันนี้.
      * method นี้จะถูกเรียกใช้ตอนมีการเรียกใช้ setSubject
      */
-    public update(): void {
+    update() {
         let t = this.getStartTime();
         this.subject.forEach((k) => {
             k.setStartTime(t);
@@ -402,11 +394,11 @@ export class SubjectDay {
      *
      * @param  {Subject[]} subject
      */
-    public setSubject(subject: Subject[]) {
+    setSubject(subject) {
         this.subject = subject;
         this.update();
     }
-    public setStartTime(startTime: number) {
+    setStartTime(startTime) {
         this.startTime = startTime;
     }
     /**
@@ -414,7 +406,7 @@ export class SubjectDay {
      * @param {number} p คาบเรียน index.
      * @returns {Subject} วิชา.
      */
-    public getSubject(p: number): Subject | null {
+    getSubject(p) {
         // คาบที่ 0.
         if (p == -1) {
             let s = ClassData.getNullSubject();
@@ -427,7 +419,8 @@ export class SubjectDay {
         }
         let out = this.subject[Math.floor(p)];
         // Normal value
-        if (out != null) return out;
+        if (out != null)
+            return out;
         // End subject.
         if (p == this.subject.length && p != 0) {
             let s = ClassData.getNullSubject();
@@ -446,10 +439,10 @@ export class SubjectDay {
      *
      * @returns {Subject[]} วิชา
      */
-    public getSubjectList(): Subject[] {
+    getSubjectList() {
         return this.subject;
     }
-    public getStartTime(): number {
+    getStartTime() {
         return this.startTime;
     }
     /**
@@ -457,7 +450,7 @@ export class SubjectDay {
      * @param {Number} timeminute เวลาตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.
      * @returns {Subject} วิชา.
      */
-    public getSubjectByTime(timeminute: number): Subject | null {
+    getSubjectByTime(timeminute) {
         return this.getSubject(this.getPeriodByTime(timeminute));
     }
     /**
@@ -465,7 +458,7 @@ export class SubjectDay {
      * @param {Number} timeminute เวลาตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.
      * @returns {Number} คาบ.
      */
-    public getPeriodByTime(timeminute: number): number {
+    getPeriodByTime(timeminute) {
         // example output : 
         // in < 500 => -1
         // in 500-549 => 0
@@ -486,39 +479,38 @@ export class SubjectDay {
      *
      * @returns {string} ข้อมูลรายวิชาในวันนี้ที่มนุษย์สามารถอ่านได้ง่าย.
      */
-    public getLocaleSubjectList(): string {
-        if (!this.getSubjectList().length) return "ไม่มีข้อมูล";
+    getLocaleSubjectList() {
+        if (!this.getSubjectList().length)
+            return "ไม่มีข้อมูล";
         let out = "";
         this.getSubjectList().forEach((t) => {
             out += `${t.getLocaleSpeakString()}\n\n`;
         });
         return out;
     }
-    public getDay(): number {
+    getDay() {
         return this.day;
     }
 }
 // global current date day.
-var currentDate: Date = new Date();
-export var currentDay: number = currentDate.getDay();
+var currentDate = new Date();
+export var currentDay = currentDate.getDay();
 // global variable.
 /**
  * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
  */
-export var currentMinutes: number;
-export var currentSubjectDay: SubjectDay = new SubjectDay(0);
-export var currentPariod: number = -1;
-export var currentSubject: Subject | null = new Subject();
-
+export var currentMinutes;
+export var currentSubjectDay = new SubjectDay(0);
+export var currentPariod = -1;
+export var currentSubject = new Subject();
 /**
  * ฟังก์ชันนี้จะรับวัตถุวันมาแล้วจะส่งออกข้อมูลในรูปแบบตัวเลขในหน่วยนาทีตั้งแต่จุดเริ่มต้นของวัน
  * @param {Date} date วัตถุวันที่อยู่ในแม่พิมพ์ Date
  * @returns นาทีตั้งแต่จุดเริ่มต้นของวัน
  */
-export function getTimeMinute(date: Date): number {
+export function getTimeMinute(date) {
     return date.getHours() * 60 + date.getMinutes();
 }
-
 /**
  * คำนวนเวลา(ในรูปแบบข้อความ string)จากนาที
  * @param {number} minute
@@ -526,21 +518,20 @@ export function getTimeMinute(date: Date): number {
  * @author Sittipat Tepsutar
  * @see getDateFromMinute
  */
-function getLocalTimeStringFromMinute(minute: number): string {
+function getLocalTimeStringFromMinute(minute) {
     if (minute == Infinity)
         return "00:00";
-    let pad = (d: number) => (d < 10) ? '0' + d.toString() : d.toString();
+    let pad = (d) => (d < 10) ? '0' + d.toString() : d.toString();
     let t1 = getDateFromMinute(minute);
     return `${pad(t1.getHours())}:${pad(t1.getMinutes())}`;
 }
-
 /**
  * ส่งกลับวันจากนาที
  * @param {number} minute
  * @returns {Date} วัน
  * @author Sittipat Tepsutar
  */
-function getDateFromMinute(minute: number): Date {
+function getDateFromMinute(minute) {
     let returndate = new Date();
     returndate.setHours(Math.floor(minute / 60));
     returndate.setMinutes(minute % 60);
@@ -548,13 +539,12 @@ function getDateFromMinute(minute: number): Date {
     returndate.setMilliseconds(0);
     return returndate;
 }
-
 /**
- * 
- * @param {any} data 
+ *
+ * @param {any} data
  * @param {Boolean} showMessage false is default.
  */
-export function update(data: any, showMessage: boolean = false): void {
+export function update(data, showMessage = false) {
     currentDate = new Date();
     currentDay = currentDate.getDay();
     // SET DATA

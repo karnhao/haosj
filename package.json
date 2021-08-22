@@ -1,12 +1,15 @@
 {
   "name": "haosj",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "Rabbit cute",
   "main": "dist/index.js",
-  "type": "module",
   "types": "dist/index.d.ts",
   "author": "Sittipat Tepsutar",
   "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">= 15"
+  },
   "files": [
     "/dist"
   ],
@@ -16,5 +19,12 @@
     "subject",
     "rabbit",
     "sittipat"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karnhao/haosj"
+  },
+  "dependencies": {
+    "@types/node": "^16.7.1"
+  }
 }
