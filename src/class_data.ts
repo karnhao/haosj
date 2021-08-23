@@ -272,7 +272,7 @@ export class ClassData {
         })(json));
         // set Data from subjectList.
         // loop day 0 to 6.
-        showMessage && console.log("Pushing subject...");
+        showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
             let f = new Function('data', `return data.subjectList._${i};`);
             let sl = f(json);
@@ -294,12 +294,11 @@ export class ClassData {
                     si.setMeetUrl(raw_object.meet);
                     s.push(si);
                     k++;
-                    showMessage && console.log(`Day ${i} >>> Pushed ${si.getLocaleId()} ${si.getLocaleName()}`);
+                    showMessage && console.log(`Day ${i} >>> Stored ${si.getLocaleId()} ${si.getLocaleName()}`);
                 }
                 this.get(i).setSubject(s);
             }
         }
-        // SubjectDay.update();
     }
     /**
      * @deprecated

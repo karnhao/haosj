@@ -1,6 +1,6 @@
 {
   "name": "haosj",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Rabbit cute",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
