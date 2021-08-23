@@ -6,11 +6,11 @@
 
 ตัวอย่างการใช้งาน :
 ```js
-// ให้ตัวแปร subject เป็นวิชา ณ ปัจจุบัน.
+// ให้ตัวแปร subject1 เป็นวิชา ณ ปัจจุบัน.
 var subject1 = ClassData.getSubjectByDate(new Date());
 
-// ให้ตัวแปร subject เป็นวิชาในคาบที่ 3 ของวันจันทร์.
-var subject2= ClassData.get(1).getSubject(2);
+// ให้ตัวแปร subject2 เป็นวิชาในคาบที่ 3 ของวันจันทร์.
+var subject2 = ClassData.get(1).getSubject(2);
 
 //แสดงชื่อวิชา.
 console.log(subject1.getName());
@@ -32,8 +32,8 @@ console.log(subject1.getLocaleTeacherName());
 * currentSubject - วิชาปัจจุบัน
 
 ## สำคัญ
-คุณจำเป็นจะต้องใส่ข้อมูลให้กับระบบนี้ก่อน และเรียนใช้มันทุกครั้งเพราะว่าระบบจะได้ update ตัวแปรที่อำนวยความสะดวกให้ด้วย:
+คุณจำเป็นจะต้องใส่ข้อมูลให้กับระบบนี้ก่อน และเรียกใช้มันทุกครั้งเพราะว่าระบบจะได้ update ตัวแปรที่อำนวยความสะดวกให้ด้วย:
 ```js
 update(subject_data, yourBoolean);
 ```
-subject_data คือข้อมูลวิชาดิบแบบ json และ yourBoolean เป็นนิพจน์ที่เป็นเท็จเมื่อไม่ใส่ ถ้าเป็นจริงระบบจะ console log รายละเอียดในฟังก์ชันนี้มา. โดยฟังก์ชันนี้จะเรียกใช้ `ClassData.setData(...)` โดยอัตโนมัติ ดังนี้คุณไม่จำเป็นต้องใช้ `ClassData.setData(...)` เลย.
+subject_data คือข้อมูลวิชาดิบแบบ json และ yourBoolean เป็นนิพจน์ที่จะใส่หรือไม่ใส่ก็ได้ เมื่อไม่ใส่จะเป็นเท็จโดยอัตโนมัติ ถ้าเป็นจริงระบบจะ console log รายละเอียดในฟังก์ชันนี้มา. ฟังก์ชันนี้จะเรียกใช้ `ClassData.setData(...)` โดยอัตโนมัติ ดังนั้นคุณไม่จำเป็นต้องใช้ `ClassData.setData(...)` เลย.

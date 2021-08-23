@@ -556,10 +556,10 @@ export function update(data, showMessage = false) {
     currentSubject = currentSubjectDay.getSubject(currentPariod);
 }
 /**
- * @param {string} url default = https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
+ * @param {string} url
  * @param {boolean} showMessage default = false
  */
-export async function useUrlData(url = "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage = false) {
+export async function useUrlData(url, showMessage = false) {
     return new Promise(async (resolve) => {
         let x = await fetch(url, {
             "method": "GET"
@@ -569,4 +569,11 @@ export async function useUrlData(url = "https://raw.githubusercontent.com/karnha
         update(x, showMessage);
         resolve();
     });
+}
+/**
+ * ใช้ข้อมูลตัวอย่าง เป็น asynchronous function
+ * ข้อมูลตัวอย่างจะโหลดมาจาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
+ */
+export async function useExampleUrlData(showMessage) {
+    return useUrlData("https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage);
 }
