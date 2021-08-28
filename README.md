@@ -36,4 +36,10 @@ console.log(subject1.getLocaleTeacherName());
 ```js
 update(subject_data, yourBoolean);
 ```
+
+## ฟังก์ชันอำนวยความสะดวก
+```js
+
+```
+
 subject_data คือข้อมูลวิชาดิบแบบ json และ yourBoolean เป็นประพจน์ที่จะใส่หรือไม่ใส่ก็ได้ เมื่อไม่ใส่จะเป็นเท็จโดยอัตโนมัติ ถ้าเป็นจริงระบบจะ console log รายละเอียดในฟังก์ชันนี้มา. ฟังก์ชันนี้จะเรียกใช้ `ClassData.setData(...)` โดยอัตโนมัติ ดังนั้นคุณไม่จำเป็นต้องใช้ `ClassData.setData(...)` เลย.

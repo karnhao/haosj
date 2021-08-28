@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+const dayMinutes = 1439;
 export class Subject {
     private width: number = 0;
     private startTime: number = 0;
@@ -419,7 +419,7 @@ export class SubjectDay {
             let s = ClassData.getNullSubject();
             if (s) {
                 s.setStartTime(0);
-                s.setWidth(this.subject.length > 0 ? this.getStartTime() : 1440);
+                s.setWidth(this.subject.length > 0 ? this.getStartTime() : dayMinutes);
                 s.setPeriod(-1);
             }
             return s;
@@ -435,7 +435,7 @@ export class SubjectDay {
                 let last_subject_period = last_subject.getPeriod();
                 s.setStartTime((last_subject) ? last_subject.getEndTime() : 0);
                 s.setPeriod((last_subject && last_subject_period) ? last_subject_period + 1 : -1);
-                s.setWidth(1440 - s.getStartTime());
+                s.setWidth(dayMinutes - s.getStartTime());
             }
             return s;
         }
@@ -527,7 +527,7 @@ export function getTimeMinute(date: Date): number {
  */
 function getLocalTimeStringFromMinute(minute: number): string {
     if (minute == Infinity)
-        return "00:00";
+        return "???";
     let pad = (d: number) => (d < 10) ? '0' + d.toString() : d.toString();
     let t1 = getDateFromMinute(minute);
     return `${pad(t1.getHours())}:${pad(t1.getMinutes())}`;
@@ -563,26 +563,4 @@ export function update(data: any, showMessage: boolean = false): void {
     currentSubjectDay = ClassData.get(currentDay);
     currentPariod = currentSubjectDay.getPeriodByTime(currentMinutes);
     currentSubject = currentSubjectDay.getSubject(currentPariod);
-}
-/**
- * @param {string} url
- * @param {boolean} showMessage default = false
- */
-export async function useUrlData(url: string, showMessage: boolean = false): Promise<void> {
-    return new Promise(async (resolve) => {
-        let x = await fetch(url, {
-            "method": "GET"
-        }).then((res) => res.json(), () => {
-            throw new Error("โหลดไฟล์ล้มเหลว.");
-        });
-        update(x, showMessage);
-        resolve();
-    });
-}
-/**
- * ใช้ข้อมูลตัวอย่าง เป็น asynchronous function
- * ข้อมูลตัวอย่างจะโหลดมาจาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
- */
-export async function useExampleUrlData(showMessage?: boolean): Promise<void> {
-    return useUrlData("https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage);
 }
