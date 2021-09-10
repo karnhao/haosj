@@ -270,27 +270,29 @@ export class ClassData {
             let f = new Function('data', `return data.subjectList._${i};`);
             let sl = f(json);
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
-            if (Array.isArray(sl.subjectList)) {
-                let s = [];
-                let k = 0;
-                // loop subject in subjectList.
-                for (let j of sl.subjectList) {
-                    let raw_object = j;
-                    let si = new Subject();
-                    si.setName(raw_object?.name);
-                    si.setId(raw_object?.id);
-                    si.setPeriod(k);
-                    si.setRoomId(raw_object?.roomId);
-                    si.setTeacher(raw_object?.teacher);
-                    si.setWidth(raw_object?.width);
-                    si.setClassroomUrl(raw_object?.classroom);
-                    si.setMeetUrl(raw_object.meet);
-                    s.push(si);
-                    k++;
-                    showMessage && console.log(`Day ${i} >>> Stored ${si.getLocaleId()} ${si.getLocaleName()}`);
-                }
-                this.get(i).setSubject(s);
+            if (!Array.isArray(sl.subjectList) || sl.subjectList.length == 0)
+                continue;
+            showMessage && console.log(`#===============[Day ${i}]===============#`);
+            let s = [];
+            let k = 0;
+            // loop subject in subjectList.
+            for (let j of sl.subjectList) {
+                let raw_object = j;
+                let si = new Subject();
+                si.setName(raw_object?.name);
+                si.setId(raw_object?.id);
+                si.setPeriod(k);
+                si.setRoomId(raw_object?.roomId);
+                si.setTeacher(raw_object?.teacher);
+                si.setWidth(raw_object?.width);
+                si.setClassroomUrl(raw_object?.classroom);
+                si.setMeetUrl(raw_object.meet);
+                s.push(si);
+                k++;
+                showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
             }
+            this.get(i).setSubject(s);
+            showMessage && console.log("#======================================#\n");
         }
     }
     /**

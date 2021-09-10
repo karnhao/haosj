@@ -145,8 +145,7 @@ export class Subject {
      */
     public getLocaleRoomId(): string {
         let ins = this.getRoomId();
-        if (!ins)
-            return "";
+        if (!ins) return "";
         let out = ins[0];
         for (let i = 1; i < ins.length; i++) {
             out += isNaN(Number(ins[i])) || ins[i].match("\\s+") || ins[i - 1].match("\\s+") ? ins[i] : ` ${ins[i]}`;
@@ -275,29 +274,30 @@ export class ClassData {
         showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
             let f = new Function('data', `return data.subjectList._${i};`);
-            let sl = f(json);
+            let sl: { startTime: number, subjectList: any[] } = f(json);
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
-            if (Array.isArray(sl.subjectList)) {
-                let s = [];
-                let k = 0;
-                // loop subject in subjectList.
-                for (let j of sl.subjectList) {
-                    let raw_object = j;
-                    let si = new Subject();
-                    si.setName(raw_object?.name);
-                    si.setId(raw_object?.id);
-                    si.setPeriod(k);
-                    si.setRoomId(raw_object?.roomId);
-                    si.setTeacher(raw_object?.teacher);
-                    si.setWidth(raw_object?.width);
-                    si.setClassroomUrl(raw_object?.classroom);
-                    si.setMeetUrl(raw_object.meet);
-                    s.push(si);
-                    k++;
-                    showMessage && console.log(`Day ${i} >>> Stored ${si.getLocaleId()} ${si.getLocaleName()}`);
-                }
-                this.get(i).setSubject(s);
+            if (!Array.isArray(sl.subjectList) || sl.subjectList.length == 0) continue;
+            showMessage && console.log(`#===============[Day ${i}]===============#`);
+            let s: Subject[] = [];
+            let k = 0;
+            // loop subject in subjectList.
+            for (let j of sl.subjectList) {
+                let raw_object = j;
+                let si = new Subject();
+                si.setName(raw_object?.name);
+                si.setId(raw_object?.id);
+                si.setPeriod(k);
+                si.setRoomId(raw_object?.roomId);
+                si.setTeacher(raw_object?.teacher);
+                si.setWidth(raw_object?.width);
+                si.setClassroomUrl(raw_object?.classroom);
+                si.setMeetUrl(raw_object.meet);
+                s.push(si);
+                k++;
+                showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
             }
+            this.get(i).setSubject(s);
+            showMessage && console.log("#======================================#\n");
         }
     }
     /**
@@ -526,8 +526,7 @@ export function getTimeMinute(date: Date): number {
  * @see getDateFromMinute
  */
 function getLocalTimeStringFromMinute(minute: number): string {
-    if (minute == Infinity)
-        return "???";
+    if (minute == Infinity) return "???";
     let pad = (d: number) => (d < 10) ? '0' + d.toString() : d.toString();
     let t1 = getDateFromMinute(minute);
     return `${pad(t1.getHours())}:${pad(t1.getMinutes())}`;
