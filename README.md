@@ -6,24 +6,35 @@
 
 ตัวอย่างการใช้งาน :
 ```js
-// ให้ตัวแปร subject1 เป็นวิชา ณ ปัจจุบัน.
-var subject1 = ClassData.getSubjectByDate(new Date());
+import haosj, { useUrlData } from "../dist/index.js";
 
-// ให้ตัวแปร subject2 เป็นวิชาในคาบที่ 3 ของวันจันทร์.
-var subject2 = ClassData.get(1).getSubject(2);
+// ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
+await useUrlData("class1", "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", false);
+
+// ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก yourSaveData.
+haosj.setClassRaw("class2", yourSaveData);
+
+// ให้ตัวแปร class1 เป็นห้องเรียนจาก id class1.
+const class1 = haosj.getClass("class1");
+
+// ให้ตัวแปร subject1 เป็นวิชา ณ ปัจจุบัน ของห้องเรียน class1.
+var subject1 = class1.getSubjectByDate(new Date());
+
+// ให้ตัวแปร subject2 เป็นวิชาในคาบที่ 3 ของวันจันทร์ ของห้องเรียน class1.
+var subject2 = class1.get(1).getSubject(2);
 
 //แสดงชื่อวิชา.
-console.log(subject1.getName());
+console.log(subject2.getName());
 
 //แสดงรหัสห้องเรียน (ห้องเรียนของวิชานี้).
-console.log(subject1.getRoomId());
+console.log(subject2.getRoomId());
 
 //แสดงรายชื่อครูในวิชานี้.
-console.log(subject1.getLocaleTeacherName());
+console.log(subject2.getLocaleTeacherName());
 ```
 
-## ตัวแปรอำนวยความสะดวก
-ตัวแปรอำนวยความสะดวก(ต้อง update)มีดังนี้ :
+## Property อำนวยความสะดวก
+Property อำนวยความสะดวก(ต้อง update)มีดังนี้ :
 * currentDate - วันปัจจุบัน
 * currentDay - วันที่เป็นเลข 0 ถึง 6 โดย 0 คือวันอาทิตย์ 1 คือวันจันทร์ ... 6 คือวันเสาร์
 * currentMinutes - เวลาที่เป็นนาทีนับตั้งแต่ 00:00 นาฬิกาจนถึงปัจจุบัน
@@ -32,12 +43,11 @@ console.log(subject1.getLocaleTeacherName());
 * currentSubject - วิชาปัจจุบัน
 
 ## สำคัญ
-คุณจำเป็นจะต้องใส่ข้อมูลให้กับระบบนี้ก่อน และเรียกใช้มันทุกครั้งเพราะว่าระบบจะได้ update ตัวแปรที่อำนวยความสะดวกให้ด้วย:
+คุณจำเป็นจะต้องใส่ข้อมูลให้กับห้องเรียนก่อน และเรียกใช้มันทุกครั้งเพราะว่าระบบจะได้ update property ที่อำนวยความสะดวกให้ด้วย:
 ```js
-update(subject_data, yourBoolean);
+update(yourBoolean?, subject_data?);
 ```
-
-subject_data คือข้อมูลวิชาดิบแบบ json และ yourBoolean เป็นประพจน์ที่จะใส่หรือไม่ใส่ก็ได้ เมื่อไม่ใส่จะเป็นเท็จโดยอัตโนมัติ ถ้าเป็นจริงระบบจะ console log รายละเอียดในฟังก์ชันนี้มา. ฟังก์ชันนี้จะเรียกใช้ `ClassData.setData(...)` โดยอัตโนมัติ ดังนั้นคุณไม่จำเป็นต้องใช้ `ClassData.setData(...)` เลย.
+yourBoolean เป็นประพจน์ที่จะใส่หรือไม่ใส่ก็ได้ เมื่อไม่ใส่จะเป็นเท็จโดยอัตโนมัติ ถ้าเป็นจริงระบบจะ console log รายละเอียดในฟังก์ชันนี้มา และ subject_data คือข้อมูลวิชาดิบแบบ json ถ้าใส่ไปจะไปห้องเรียนจะไปใช้ข้อมูลใหม่แทน ถ้าไม่ใส่ก็จะยังใช้ข้อมูลเดิมแต่เวลาต่างๆก็จะถูก update. ฟังก์ชันนี้จะเรียกใช้ `ClassData.setData(...)` โดยอัตโนมัติ ดังนั้นคุณไม่จำเป็นต้องใช้ `ClassData.setData(...)` เลย.
 
 ## ฟังก์ชันอำนวยความสะดวก
 ```js

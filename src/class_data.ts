@@ -526,24 +526,13 @@ export class SubjectDay {
         return this.day;
     }
 }
-// // global current date day.
-// var currentDate: Date = new Date();
-// export var currentDay: number = currentDate.getDay();
-// // global variable.
-// /**
-//  * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
-//  */
-// export var currentMinutes: number;
-// export var currentSubjectDay: SubjectDay = new SubjectDay(0);
-// export var currentPariod: number = -1;
-// export var currentSubject: Subject | null = new Subject();
 
 /**
  * ฟังก์ชันนี้จะรับวัตถุวันมาแล้วจะส่งออกข้อมูลในรูปแบบตัวเลขในหน่วยนาทีตั้งแต่จุดเริ่มต้นของวัน
  * @param {Date} date วัตถุวันที่อยู่ในแม่พิมพ์ Date
  * @returns นาทีตั้งแต่จุดเริ่มต้นของวัน
  */
-export function getTimeMinute(date: Date): number {
+function getTimeMinute(date: Date): number {
     return date.getHours() * 60 + date.getMinutes();
 }
 
@@ -575,20 +564,3 @@ function getDateFromMinute(minute: number): Date {
     returndate.setMilliseconds(0);
     return returndate;
 }
-
-// /**
-//  * 
-//  * @param {any} data 
-//  * @param {Boolean} showMessage false is default.
-//  */
-// export function update(data: any, showMessage: boolean = false): void {
-//     currentDate = new Date();
-//     currentDay = currentDate.getDay();
-//     // SET DATA
-//     ClassData.setData(data, showMessage);
-//     // SET GLOBAL
-//     currentMinutes = getTimeMinute(currentDate);
-//     currentSubjectDay = ClassData.get(currentDay);
-//     currentPariod = currentSubjectDay.getPeriodByTime(currentMinutes);
-//     currentSubject = currentSubjectDay.getSubject(currentPariod);
-// }

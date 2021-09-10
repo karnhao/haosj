@@ -263,9 +263,3 @@ export declare class SubjectDay {
     getLocaleSubjectList(): string;
     getDay(): number;
 }
-/**
- * ฟังก์ชันนี้จะรับวัตถุวันมาแล้วจะส่งออกข้อมูลในรูปแบบตัวเลขในหน่วยนาทีตั้งแต่จุดเริ่มต้นของวัน
- * @param {Date} date วัตถุวันที่อยู่ในแม่พิมพ์ Date
- * @returns นาทีตั้งแต่จุดเริ่มต้นของวัน
- */
-export declare function getTimeMinute(date: Date): number;
