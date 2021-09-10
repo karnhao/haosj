@@ -132,78 +132,93 @@ export declare class Subject {
     getStartTimeDate(): Date;
 }
 export declare class ClassData {
-    private static data;
+    currentDate: Date;
+    currentDay: number;
+    /**
+     * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
+     */
+    currentMinutes: number;
+    currentSubjectDay: SubjectDay;
+    currentPariod: number;
+    currentSubject: Subject | null;
+    /**
+    *
+    * @param {any} data
+    * @param {Boolean} showMessage false is default.
+    */
+    update(showMessage?: boolean, data?: any): void;
+    private oldRawData;
+    private data;
+    private sd;
     /**
      *
      * @param {Number} day ตัวเลขจำนวนเต็ม.
      * @returns {SubjectDay} จะส่งค่ากลับแบบ SubjectDay.
      */
-    static get(day: number): SubjectDay;
+    get(day: number): SubjectDay;
     /**
      *
      * @param {Number} day ตัวเลขจำนวนเต็ม.
      * @returns {SubjectDay[]} จะส่งค่ากลับในรูปแบบ Array.
      */
-    static get(): SubjectDay[];
+    get(): SubjectDay[];
+    /**
+     * อัพเดตเวลาแต่ละคาบของทุกวัน.
+     */
+    updateAllDay(): void;
     /**
      * สามารถโหลดหรือดูตัวอย่างข้อมูลดิบที่จะนำมาใส่ใน parameter ของฟังก์ชันนี้ได้ที่.
      *  - https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
      * @param {any} json ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    static setData(json: any, showMessage?: boolean): void;
+    setData(json: any, showMessage?: boolean): void;
     /**
      * @deprecated
      * @param {number} number เวลาเริ่มต้นคาบแรก นับตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.
      */
-    static setStartTime(number: number): void;
+    setStartTime(number: number): void;
     /**
      *
      * @param {string} id id ห้องเรียน.
      */
-    static setClassId(id: string): void;
+    setClassId(id: string): void;
     /**
      *
      * @param {string} name ชื่อห้องเรียน.
      */
-    static setClassName(name: string): void;
+    setClassName(name: string): void;
     /**
      *
      * @param {Subject} subject วิชาว่าง
      */
-    static setNullSubject(subject: Subject): void;
+    setNullSubject(subject: Subject): void;
     /**
      *
      * @param {Date} date วัน.
      * @returns {Subject} วิชา.
      */
-    static getSubjectByDate(date: Date): Subject | null;
+    getSubjectByDate(date: Date): Subject | null;
     /**
      *
      * @returns startTime
      * @deprecated
      */
-    static getStartTime(): number;
-    static getClassName(): string;
-    static getClassId(): string;
+    getStartTime(): number;
+    getClassName(): string;
+    getClassId(): string;
     /**
      *
      * @returns {Subject} วิชาว่าง.
      */
-    static getNullSubject(): Subject;
+    getNullSubject(): Subject;
 }
 export declare class SubjectDay {
     constructor(day: number);
-    private subject;
+    private subjects;
     private day;
     private startTime;
-    private static sd;
-    static get(day: number): SubjectDay;
-    static get(): SubjectDay[];
-    /**
-     * อัพเดตเวลาแต่ละคาบของทุกวัน.
-     */
-    static update(): void;
+    private nullSubject;
     /**
      * อัพเดตเวลาแต่ละคาบของวันนี้.
      * method นี้จะถูกเรียกใช้ตอนมีการเรียกใช้ setSubject
@@ -214,7 +229,9 @@ export declare class SubjectDay {
      * @param  {Subject[]} subject
      */
     setSubject(subject: Subject[]): void;
+    setNullSubject(subject: Subject): void;
     setStartTime(startTime: number): void;
+    getNullSubject(): Subject;
     /**
      *
      * @param {number} p คาบเรียน index.
@@ -246,23 +263,9 @@ export declare class SubjectDay {
     getLocaleSubjectList(): string;
     getDay(): number;
 }
-export declare var currentDay: number;
-/**
- * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
- */
-export declare var currentMinutes: number;
-export declare var currentSubjectDay: SubjectDay;
-export declare var currentPariod: number;
-export declare var currentSubject: Subject | null;
 /**
  * ฟังก์ชันนี้จะรับวัตถุวันมาแล้วจะส่งออกข้อมูลในรูปแบบตัวเลขในหน่วยนาทีตั้งแต่จุดเริ่มต้นของวัน
  * @param {Date} date วัตถุวันที่อยู่ในแม่พิมพ์ Date
  * @returns นาทีตั้งแต่จุดเริ่มต้นของวัน
  */
 export declare function getTimeMinute(date: Date): number;
-/**
- *
- * @param {any} data
- * @param {Boolean} showMessage false is default.
- */
-export declare function update(data: any, showMessage?: boolean): void;

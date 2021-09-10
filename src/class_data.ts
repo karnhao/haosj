@@ -223,27 +223,67 @@ export class Subject {
     }
 }
 export class ClassData {
-    private static data = {
+    public currentDate: Date = new Date();
+    public currentDay: number = this.currentDate.getDay();
+    /**
+     * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
+     */
+    public currentMinutes: number = 0;
+    public currentSubjectDay: SubjectDay = new SubjectDay(0);
+    public currentPariod: number = -1;
+    public currentSubject: Subject | null = new Subject();
+    /**
+    * 
+    * @param {any} data 
+    * @param {Boolean} showMessage false is default.
+    */
+    public update(showMessage: boolean = false, data: any = this.oldRawData): void {
+        this.currentDate = new Date();
+        this.currentDay = this.currentDate.getDay();
+        // SET DATA
+        this.setData(data, showMessage);
+        // SET GLOBAL
+        this.currentMinutes = getTimeMinute(this.currentDate);
+        this.currentSubjectDay = this.get(this.currentDay);
+        this.currentPariod = this.currentSubjectDay.getPeriodByTime(this.currentMinutes);
+        this.currentSubject = this.currentSubjectDay.getSubject(this.currentPariod);
+    }
+    private oldRawData: any = null;
+    private data = {
         startTime: 0,
         classId: '',
         className: '',
         nullSubject: new Subject()
     };
+    private sd: SubjectDay[] = (function () {
+        let out = [];
+        for (let i = 0; i < 7; i++) {
+            out.push(new SubjectDay(i));
+        }
+        return out;
+    })();
     /**
      * 
      * @param {Number} day ตัวเลขจำนวนเต็ม. 
      * @returns {SubjectDay} จะส่งค่ากลับแบบ SubjectDay.
      */
-    public static get(day: number): SubjectDay;
+    public get(day: number): SubjectDay;
     /**
      * 
      * @param {Number} day ตัวเลขจำนวนเต็ม. 
      * @returns {SubjectDay[]} จะส่งค่ากลับในรูปแบบ Array.
      */
-    public static get(): SubjectDay[];
-    public static get(day?: number): SubjectDay | SubjectDay[] {
-        if (day != null) return SubjectDay.get(day);
-        return SubjectDay.get();
+    public get(): SubjectDay[];
+    public get(day?: number): any {
+        return day != null ? this.sd[Math.floor(day)] : this.sd;
+    }
+    /**
+     * อัพเดตเวลาแต่ละคาบของทุกวัน.
+     */
+    public updateAllDay(): void {
+        this.sd.forEach((t) => {
+            t.update();
+        });
     }
     /**
      * สามารถโหลดหรือดูตัวอย่างข้อมูลดิบที่จะนำมาใส่ใน parameter ของฟังก์ชันนี้ได้ที่.
@@ -251,8 +291,8 @@ export class ClassData {
      * @param {any} json ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    public static setData(json: any, showMessage: boolean = false): void {
-        // this.setStartTime(json.startTime);
+    public setData(json: any, showMessage: boolean = false): void {
+        this.oldRawData = json;
         this.setClassId(json.classId);
         this.setClassName(json.className);
         this.setNullSubject((function (data) {
@@ -297,6 +337,7 @@ export class ClassData {
                 showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
             }
             this.get(i).setSubject(s);
+            this.get(i).setNullSubject(this.getNullSubject());
             showMessage && console.log("#======================================#\n");
         }
     }
@@ -304,28 +345,28 @@ export class ClassData {
      * @deprecated
      * @param {number} number เวลาเริ่มต้นคาบแรก นับตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.
      */
-    public static setStartTime(number: number): void {
+    public setStartTime(number: number): void {
         this.data.startTime = number;
     }
     /**
      *
      * @param {string} id id ห้องเรียน.
      */
-    public static setClassId(id: string): void {
+    public setClassId(id: string): void {
         this.data.classId = id;
     }
     /**
      *
      * @param {string} name ชื่อห้องเรียน.
      */
-    public static setClassName(name: string): void {
+    public setClassName(name: string): void {
         this.data.className = name;
     }
     /**
      *
      * @param {Subject} subject วิชาว่าง
      */
-    public static setNullSubject(subject: Subject): void {
+    public setNullSubject(subject: Subject): void {
         this.data.nullSubject = subject;
     }
     /**
@@ -333,7 +374,7 @@ export class ClassData {
      * @param {Date} date วัน.
      * @returns {Subject} วิชา.
      */
-    public static getSubjectByDate(date: Date): Subject | null {
+    public getSubjectByDate(date: Date): Subject | null {
         return this.get(date.getDay()).getSubjectByTime(getTimeMinute(date));
     }
     /**
@@ -341,20 +382,20 @@ export class ClassData {
      * @returns startTime
      * @deprecated
      */
-    public static getStartTime(): number {
+    public getStartTime(): number {
         return this.data.startTime;
     }
-    public static getClassName(): string {
+    public getClassName(): string {
         return this.data.className;
     }
-    public static getClassId(): string {
+    public getClassId(): string {
         return this.data.classId;
     }
     /**
      *
      * @returns {Subject} วิชาว่าง.
      */
-    public static getNullSubject(): Subject {
+    public getNullSubject(): Subject {
         return this.data.nullSubject;
     }
 }
@@ -363,36 +404,18 @@ export class SubjectDay {
         if (!Number.isInteger(day)) throw new TypeError("Parameter ต้องเป็นจำนวนเต็ม");
         this.day = day;
     }
-    private subject: Subject[] = [];
+    private subjects: Subject[] = [];
     private day: number;
     private startTime: number = 0;
-    private static sd: SubjectDay[] = (function () {
-        let out = [];
-        for (let i = 0; i < 7; i++) {
-            out.push(new SubjectDay(i));
-        }
-        return out;
-    })();
-    public static get(day: number): SubjectDay;
-    public static get(): SubjectDay[];
-    public static get(day?: number): any {
-        return day != null ? this.sd[Math.floor(day)] : this.sd;
-    }
-    /**
-     * อัพเดตเวลาแต่ละคาบของทุกวัน.
-     */
-    public static update(): void {
-        this.sd.forEach((t) => {
-            t.update();
-        });
-    }
+    private nullSubject: Subject = new Subject("NULL");
+
     /**
      * อัพเดตเวลาแต่ละคาบของวันนี้.
      * method นี้จะถูกเรียกใช้ตอนมีการเรียกใช้ setSubject
      */
     public update(): void {
         let t = this.getStartTime();
-        this.subject.forEach((k) => {
+        this.subjects.forEach((k) => {
             k.setStartTime(t);
             t += k.getWidth();
         });
@@ -402,11 +425,17 @@ export class SubjectDay {
      * @param  {Subject[]} subject
      */
     public setSubject(subject: Subject[]) {
-        this.subject = subject;
+        this.subjects = subject;
         this.update();
+    }
+    public setNullSubject(subject: Subject): void {
+        this.nullSubject = subject;
     }
     public setStartTime(startTime: number) {
         this.startTime = startTime;
+    }
+    public getNullSubject(): Subject {
+        return this.nullSubject;
     }
     /**
      *
@@ -416,21 +445,21 @@ export class SubjectDay {
     public getSubject(p: number): Subject | null {
         // คาบที่ 0.
         if (p == -1) {
-            let s = ClassData.getNullSubject();
+            let s = this.getNullSubject();
             if (s) {
                 s.setStartTime(0);
-                s.setWidth(this.subject.length > 0 ? this.getStartTime() : dayMinutes);
+                s.setWidth(this.subjects.length > 0 ? this.getStartTime() : dayMinutes);
                 s.setPeriod(-1);
             }
             return s;
         }
-        let out = this.subject[Math.floor(p)];
+        let out = this.subjects[Math.floor(p)];
         // Normal value
         if (out != null) return out;
         // End subject.
-        if (p == this.subject.length && p != 0) {
-            let s = ClassData.getNullSubject();
-            let last_subject = this.subject[this.subject.length - 1];
+        if (p == this.subjects.length && p != 0) {
+            let s = this.getNullSubject();
+            let last_subject = this.subjects[this.subjects.length - 1];
             if (s) {
                 let last_subject_period = last_subject.getPeriod();
                 s.setStartTime((last_subject) ? last_subject.getEndTime() : 0);
@@ -446,7 +475,7 @@ export class SubjectDay {
      * @returns {Subject[]} วิชา
      */
     public getSubjectList(): Subject[] {
-        return this.subject;
+        return this.subjects;
     }
     public getStartTime(): number {
         return this.startTime;
@@ -469,7 +498,7 @@ export class SubjectDay {
         // in < 500 => -1
         // in 500-549 => 0
         // in 550-599 => 1...
-        if (timeminute < this.getStartTime() || this.subject.length == 0) {
+        if (timeminute < this.getStartTime() || this.subjects.length == 0) {
             return -1;
         }
         let p = 0;
@@ -497,17 +526,17 @@ export class SubjectDay {
         return this.day;
     }
 }
-// global current date day.
-var currentDate: Date = new Date();
-export var currentDay: number = currentDate.getDay();
-// global variable.
-/**
- * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
- */
-export var currentMinutes: number;
-export var currentSubjectDay: SubjectDay = new SubjectDay(0);
-export var currentPariod: number = -1;
-export var currentSubject: Subject | null = new Subject();
+// // global current date day.
+// var currentDate: Date = new Date();
+// export var currentDay: number = currentDate.getDay();
+// // global variable.
+// /**
+//  * _เวลาที่เป็นหน่วยนาทีตั้งแต่ 0:00น ถึงปัจจุบัน._
+//  */
+// export var currentMinutes: number;
+// export var currentSubjectDay: SubjectDay = new SubjectDay(0);
+// export var currentPariod: number = -1;
+// export var currentSubject: Subject | null = new Subject();
 
 /**
  * ฟังก์ชันนี้จะรับวัตถุวันมาแล้วจะส่งออกข้อมูลในรูปแบบตัวเลขในหน่วยนาทีตั้งแต่จุดเริ่มต้นของวัน
@@ -547,19 +576,19 @@ function getDateFromMinute(minute: number): Date {
     return returndate;
 }
 
-/**
- * 
- * @param {any} data 
- * @param {Boolean} showMessage false is default.
- */
-export function update(data: any, showMessage: boolean = false): void {
-    currentDate = new Date();
-    currentDay = currentDate.getDay();
-    // SET DATA
-    ClassData.setData(data, showMessage);
-    // SET GLOBAL
-    currentMinutes = getTimeMinute(currentDate);
-    currentSubjectDay = ClassData.get(currentDay);
-    currentPariod = currentSubjectDay.getPeriodByTime(currentMinutes);
-    currentSubject = currentSubjectDay.getSubject(currentPariod);
-}
+// /**
+//  * 
+//  * @param {any} data 
+//  * @param {Boolean} showMessage false is default.
+//  */
+// export function update(data: any, showMessage: boolean = false): void {
+//     currentDate = new Date();
+//     currentDay = currentDate.getDay();
+//     // SET DATA
+//     ClassData.setData(data, showMessage);
+//     // SET GLOBAL
+//     currentMinutes = getTimeMinute(currentDate);
+//     currentSubjectDay = ClassData.get(currentDay);
+//     currentPariod = currentSubjectDay.getPeriodByTime(currentMinutes);
+//     currentSubject = currentSubjectDay.getSubject(currentPariod);
+// }

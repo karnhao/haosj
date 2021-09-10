@@ -1,19 +1,21 @@
-import { update } from '../class_data.js';
+import haosj from '../haosj.js';
 import fetch from "node-fetch";
+import { ClassData } from '../class_data.js';
 /**
  * เป็น asynchronous function.
  * @param {string} url
  * @param {boolean} showMessage default = false
  * @return {Promise<any>} Promise<ข้อมูล>.
  */
-export async function useUrlData(url: string, showMessage: boolean = false): Promise<any> {
+export async function useUrlData(classId: string, url: string, showMessage: boolean = false): Promise<any> {
     return new Promise(async (resolve) => {
         let x = await fetch(url, {
             "method": "GET"
         }).then((res) => res.json(), () => {
             throw new Error("โหลดไฟล์ล้มเหลว.");
         });
-        update(x, showMessage);
+        let c = new ClassData(); c.setData(x);
+        haosj.setClass(classId, c);
         resolve(x);
     });
 }
@@ -22,6 +24,6 @@ export async function useUrlData(url: string, showMessage: boolean = false): Pro
  * ข้อมูลตัวอย่างจะโหลดมาจาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
  * @return {Promise<any>} Promise<ข้อมูล>.
  */
-export async function useExampleUrlData(showMessage?: boolean): Promise<any> {
-    return useUrlData("https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage);
+export async function useExampleUrlData(classId: string, showMessage?: boolean): Promise<any> {
+    return useUrlData(classId, "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", showMessage);
 }
