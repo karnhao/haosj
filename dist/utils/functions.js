@@ -8,11 +8,11 @@ import { ClassData } from '../class_data.js';
  * @return {Promise<any>} Promise<ข้อมูล>.
  */
 export async function useUrlData(classId, url, showMessage = false) {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
         let x = await fetch(url, {
             "method": "GET"
         }).then((res) => res.json(), () => {
-            throw new Error("โหลดไฟล์ล้มเหลว.");
+            reject(new Error("โหลดไฟล์ล้มเหลว."));
         });
         let c = new ClassData();
         c.setData(x);
