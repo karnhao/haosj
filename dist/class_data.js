@@ -285,7 +285,6 @@ export class ClassData {
      * @param {boolean} showMessage
      */
     setData(json, showMessage = false) {
-        this.oldRawData = json;
         this.setClassId(json.classId);
         this.setClassName(json.className);
         this.setNullSubject((function (data) {
@@ -334,6 +333,7 @@ export class ClassData {
             this.get(i).setSubject(s);
             showMessage && console.log("#======================================#\n");
         }
+        this.oldRawData = json;
     }
     /**
      * @deprecated
