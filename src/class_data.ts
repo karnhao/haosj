@@ -316,6 +316,7 @@ export class ClassData {
             let f = new Function('data', `return data.subjectList._${i};`);
             let sl: { startTime: number, subjectList: any[] } = f(json);
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
+            this.get(i).setNullSubject(this.getNullSubject());
             if (!Array.isArray(sl.subjectList) || sl.subjectList.length == 0) continue;
             showMessage && console.log(`#===============[Day ${i}]===============#`);
             let s: Subject[] = [];
@@ -337,7 +338,6 @@ export class ClassData {
                 showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
             }
             this.get(i).setSubject(s);
-            this.get(i).setNullSubject(this.getNullSubject());
             showMessage && console.log("#======================================#\n");
         }
     }

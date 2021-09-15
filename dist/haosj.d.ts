@@ -17,7 +17,7 @@ declare const haosj: {
      * @param id
      * @param data ข้อมูลแบบ json;
      */
-    setClassRaw(id: string, data: any): void;
+    setClassRaw(id: string, data: any, showMessage?: boolean | undefined): void;
     /**
      * ลบห้องเรียนโดยใช้ id.
      * @param id

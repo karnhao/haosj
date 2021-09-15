@@ -13,10 +13,17 @@ export async function useUrlData(classId, url, showMessage = false) {
             "method": "GET"
         }).then((res) => res.json(), () => {
             reject(new Error("โหลดไฟล์ล้มเหลว."));
+        }).catch((e) => {
+            reject(e);
         });
-        let c = new ClassData();
-        c.setData(x);
-        haosj.setClass(classId, c);
+        try {
+            let c = new ClassData();
+            c.setData(x);
+            haosj.setClass(classId, c);
+        }
+        catch (e) {
+            reject(e);
+        }
         resolve(x);
     });
 }

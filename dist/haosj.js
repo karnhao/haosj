@@ -23,9 +23,9 @@ const haosj = {
      * @param id
      * @param data ข้อมูลแบบ json;
      */
-    setClassRaw(id, data) {
+    setClassRaw(id, data, showMessage) {
         let c = new ClassData();
-        c.update(data);
+        c.update(showMessage, data);
         this.setClass(id, c);
     },
     /**
