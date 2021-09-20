@@ -172,7 +172,7 @@ export class Subject {
         return this.period;
     }
     getLocalePeriod() {
-        return this.period ? (this.period + 1).toString() : "";
+        return this.period != null ? (this.period + 1).toString() : "";
     }
     /**
      *

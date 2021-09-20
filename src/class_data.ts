@@ -167,7 +167,7 @@ export class Subject {
         return this.period;
     }
     public getLocalePeriod(): string {
-        return this.period ? (this.period + 1).toString() : "";
+        return this.period != null ? (this.period + 1).toString() : "";
     }
     /**
      *
