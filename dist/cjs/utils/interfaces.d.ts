@@ -1,20 +1,71 @@
 export interface RawSubject {
+    /**
+     * id ของวิชา.
+     */
     id?: string;
+    /**
+     * ชื่อวิชา.
+     */
     name: string;
+    /**
+     * ครูผู้สอนวิชาเป็นแบบ array.
+     */
     teacher?: string[];
+    /**
+     * ห้องเรียนที่เรียนในวิชา.
+     */
     roomId?: string;
+    /**
+     * เวลาที่ใช้ในการเรียนในวิชานี้ หน่วยเป็นนาที.
+     */
     width?: number;
+    /**
+     * url link.
+     */
     classroom?: string;
+    /**
+     * url link.
+     */
     meet?: string;
 }
 export interface RawSubjectDay {
-    day: number;
+    /**
+     * ทำอะไรไม่ได้เลยเหมือนเป็นแค่ comment ไม่ต้องใส่ก็ได้.
+     */
+    day?: number;
+    /**
+     * เวลาเริ่มต้นคาบแรก หน่วยเป็นนาที นับจาก 0:00น.เช่น
+     * * 500 - 08:20น.
+     * * 550 - 09:10น.
+     * * 600 - 10:00น.
+     * * 1439 - 23:59น.
+     */
     startTime: number;
+    /**
+     * ข้อมูลวัน มี 7 วัน.
+     */
     subjectList: RawSubject[];
 }
 export interface RawClassData {
+    /**
+     * id ห้องเรียน.
+     */
     classId: string;
+    /**
+     * ชื่อห้องเรียน.
+     */
     className: string;
+    /**
+     * ระบบมองว่าวิชาไม่มี ก็คือวิชา วิชานี้จะถูกส่งเมื่อขอวิชาในคาบที่ -1 และวิชาหลังคาบสุดท้าย 1 คาบ. เช่น
+     * ```js
+     * //thisDay มีทั้งหมด 8 วิชา เรียกวิชาแรกด้วย thisDay.getSubject(0) และวิชาสุดท้ายด้วย thisDay.getSubject(7)
+     * thisDay.getSubject(-1); // จะได้วิชาจาก nullSubject นี้ โดยมีเวลาเริ่มต้นคือ 0:00น. และจบที่ startTime ของ thisDay.
+     * thisDay.getSubject(7); // จะได้วิชาปกติจาก thisDay ในที่นี้จะเป็นวิชาสุดท้ายของ thisDay.
+     * thisDay.getSubject(8); // จะได้วิชาจาก nullSubject นี้ โดยมีเวลาเริ่มต้นคือเวลาจบของวิชาสุดท้ายจนถึง 23:59น.
+     * thisDay.getSubject(9); // จะได้ null.
+     * thisDay.getSubject(-2); // จะได้ null.
+     * ```
+     */
     nullSubject: RawSubject;
     /**
      * ตั้งวิชาและเวลาเริ่มต้นคาบแรกของวัน monday tuesday wednesday thursday friday saturday sunday

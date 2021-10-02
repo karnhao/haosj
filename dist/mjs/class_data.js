@@ -289,7 +289,7 @@ export class ClassData {
         this.setClassName(object.className);
         this.setNullSubject((function (data) {
             let s = new Subject();
-            let raw_s = data?.nullSubject ?? { name: "NULL2" };
+            let raw_s = data?.nullSubject ?? { name: "NULL" };
             s.setId(raw_s?.id ?? null);
             s.setName(raw_s?.name);
             s.setPeriod(null);
@@ -402,7 +402,7 @@ export class SubjectDay {
     subjects = [];
     day;
     startTime = 0;
-    nullSubject = new Subject("NULL1");
+    nullSubject = new Subject("NULL CODE 1");
     /**
      * อัพเดตเวลาแต่ละคาบของวันนี้.
      * method นี้จะถูกเรียกใช้ตอนมีการเรียกใช้ setSubject
@@ -432,7 +432,15 @@ export class SubjectDay {
         return this.nullSubject;
     }
     /**
-     *
+     * ระบบมองว่าวิชาไม่มีเป็นวิชาดังตัวอย่าง
+     * ```js
+     * //ภายใน thisDay มีทั้งหมด 8 วิชา เรียกวิชาแรกด้วย thisDay.getSubject(0) และวิชาสุดท้ายด้วย thisDay.getSubject(7)
+     * thisDay.getSubject(-1); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือ 0:00น. และจบที่ startTime ของ thisDay.
+     * thisDay.getSubject(7); // จะได้วิชาปกติจาก thisDay ในที่นี้จะเป็นวิชาสุดท้ายของ thisDay.
+     * thisDay.getSubject(8); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือเวลาจบของวิชาสุดท้ายจนถึง 23:59น.
+     * thisDay.getSubject(9); // จะได้ null.
+     * thisDay.getSubject(-2); // จะได้ null.
+     * ```
      * @param {number} p คาบเรียน index.
      * @returns {Subject} วิชา.
      */

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const class_data_js_1 = require("./class_data.js");
 var classes = new Map();
 /**
- * # HaoSubject
+ * # [HaoSubject](https://youtu.be/QtBDL8EiNZo)
  * โดย สิทธิภัทท์ เทพสุธา ที่ชอบ[กระต่าย](https://th.wikipedia.org/wiki/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%A2)🐇มากๆ
  *
  * ## เกี่ยวกับ HaoSubject

@@ -297,7 +297,7 @@ class ClassData {
         this.setNullSubject((function (data) {
             var _a, _b, _c, _d, _e, _f, _g;
             let s = new Subject();
-            let raw_s = (_a = data === null || data === void 0 ? void 0 : data.nullSubject) !== null && _a !== void 0 ? _a : { name: "NULL2" };
+            let raw_s = (_a = data === null || data === void 0 ? void 0 : data.nullSubject) !== null && _a !== void 0 ? _a : { name: "NULL" };
             s.setId((_b = raw_s === null || raw_s === void 0 ? void 0 : raw_s.id) !== null && _b !== void 0 ? _b : null);
             s.setName(raw_s === null || raw_s === void 0 ? void 0 : raw_s.name);
             s.setPeriod(null);
@@ -406,7 +406,7 @@ class SubjectDay {
     constructor(day) {
         this.subjects = [];
         this.startTime = 0;
-        this.nullSubject = new Subject("NULL1");
+        this.nullSubject = new Subject("NULL CODE 1");
         if (!Number.isInteger(day))
             throw new TypeError("Parameter ต้องเป็นจำนวนเต็ม");
         this.day = day;
@@ -440,7 +440,15 @@ class SubjectDay {
         return this.nullSubject;
     }
     /**
-     *
+     * ระบบมองว่าวิชาไม่มีเป็นวิชาดังตัวอย่าง
+     * ```js
+     * //ภายใน thisDay มีทั้งหมด 8 วิชา เรียกวิชาแรกด้วย thisDay.getSubject(0) และวิชาสุดท้ายด้วย thisDay.getSubject(7)
+     * thisDay.getSubject(-1); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือ 0:00น. และจบที่ startTime ของ thisDay.
+     * thisDay.getSubject(7); // จะได้วิชาปกติจาก thisDay ในที่นี้จะเป็นวิชาสุดท้ายของ thisDay.
+     * thisDay.getSubject(8); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือเวลาจบของวิชาสุดท้ายจนถึง 23:59น.
+     * thisDay.getSubject(9); // จะได้ null.
+     * thisDay.getSubject(-2); // จะได้ null.
+     * ```
      * @param {number} p คาบเรียน index.
      * @returns {Subject} วิชา.
      */
