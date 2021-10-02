@@ -1,3 +1,4 @@
+import { RawClassData } from './utils/interfaces.js';
 export declare class Subject {
     private width;
     private startTime;
@@ -10,12 +11,12 @@ export declare class Subject {
     private meet;
     constructor(name?: string);
     /**
-     *
+     * ตั้ง id.
      * @param {string} id รหัสวิชา.
      */
-    setId(id: string): void;
+    setId(id: string | null): void;
     /**
-     *
+     * ตั้งชื่อวิชา.
      * @param {string} name ชื่อวิชา.
      */
     setName(name: string): void;
@@ -23,12 +24,12 @@ export declare class Subject {
      *
      * @param  {string[]} teacher รายชื่อครูประจำวิชา (array).
      */
-    setTeacher(teacher: string[]): void;
+    setTeacher(teacher: string[] | null): void;
     /**
      *
      * @param {string} roomId ชื่อห้องเรียนหรือรหัสห้องเรียน.
      */
-    setRoomId(roomId: string): void;
+    setRoomId(roomId: string | null): void;
     /**
      *
      * @param {number} number ระยะเวลาเรียน หน่วยเป็นนาที.
@@ -46,12 +47,12 @@ export declare class Subject {
      *
      * @param {string} url url ห้องเรียน
      */
-    setClassroomUrl(url: string): void;
+    setClassroomUrl(url: string | null): void;
     /**
      *
      * @param {string} url url เข้าห้องประชุม
      */
-    setMeetUrl(url: string): void;
+    setMeetUrl(url: string | null): void;
     /**
      *
      * @returns {string} รหัสวิชา
@@ -143,10 +144,10 @@ export declare class ClassData {
     currentSubject: Subject | null;
     /**
     *
-    * @param {any} data
+    * @param {RawClassData} data
     * @param {Boolean} showMessage false is default.
     */
-    update(showMessage?: boolean, data?: any): void;
+    update(showMessage?: boolean, data?: RawClassData): void;
     private oldRawData;
     private data;
     private sd;
@@ -169,10 +170,10 @@ export declare class ClassData {
     /**
      * สามารถโหลดหรือดูตัวอย่างข้อมูลดิบที่จะนำมาใส่ใน parameter ของฟังก์ชันนี้ได้ที่.
      *  - https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
-     * @param {any} json ข้อมูลดิบ.
+     * @param {RawClassData} object ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    setData(json: any, showMessage?: boolean): void;
+    setData(object: RawClassData, showMessage?: boolean): void;
     /**
      * @deprecated
      * @param {number} number เวลาเริ่มต้นคาบแรก นับตั้งแต่จุดเริ่มต้นของวัน (0:00น) หน่วยเป็นนาที.

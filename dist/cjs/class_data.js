@@ -7,29 +7,29 @@ class Subject {
         this.width = 0;
         this.startTime = 0;
         this.period = -1;
-        this.name = "";
-        this.id = "";
-        this.roomId = "";
-        this.teacher = [];
+        this.name = null;
+        this.id = null;
+        this.roomId = null;
+        this.teacher = null;
         this.classroom = null;
         this.meet = null;
         if (name)
             this.name = name;
     }
     /**
-     *
+     * ตั้ง id.
      * @param {string} id รหัสวิชา.
      */
     setId(id) {
         this.id = id;
     }
     /**
-     *
+     * ตั้งชื่อวิชา.
      * @param {string} name ชื่อวิชา.
      */
     setName(name) {
         if (typeof name != "string")
-            throw new TypeError("Parameter ต้องเป็น string.");
+            throw new TypeError("Parameter ต้องเป็น string. : " + name);
         this.name = name;
     }
     /**
@@ -185,7 +185,7 @@ class Subject {
         return this.startTime;
     }
     getLocaleStartTime() {
-        return getLocalTimeStringFromMinute(this.getStartTime());
+        return getLocaleTimeStringFromMinute(this.getStartTime());
     }
     /**
      *
@@ -195,7 +195,7 @@ class Subject {
         return this.startTime + this.width;
     }
     getLocaleEndTime() {
-        return getLocalTimeStringFromMinute(this.getEndTime());
+        return getLocaleTimeStringFromMinute(this.getEndTime());
     }
     getLocaleTime() {
         return `${this.getLocaleStartTime()}-${this.getLocaleEndTime()}`;
@@ -259,7 +259,7 @@ class ClassData {
     }
     /**
     *
-    * @param {any} data
+    * @param {RawClassData} data
     * @param {Boolean} showMessage false is default.
     */
     update(showMessage = false, data = this.oldRawData) {
@@ -287,37 +287,39 @@ class ClassData {
     /**
      * สามารถโหลดหรือดูตัวอย่างข้อมูลดิบที่จะนำมาใส่ใน parameter ของฟังก์ชันนี้ได้ที่.
      *  - https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
-     * @param {any} json ข้อมูลดิบ.
+     * @param {RawClassData} object ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    setData(json, showMessage = false) {
-        this.setClassId(json.classId);
-        this.setClassName(json.className);
+    setData(object, showMessage = false) {
+        var _a, _b, _c, _d, _e, _f;
+        this.setClassId(object.classId);
+        this.setClassName(object.className);
         this.setNullSubject((function (data) {
+            var _a, _b, _c, _d, _e, _f, _g;
             let s = new Subject();
-            let raw_s = data === null || data === void 0 ? void 0 : data.nullSubject;
-            s.setId(raw_s === null || raw_s === void 0 ? void 0 : raw_s.id);
+            let raw_s = (_a = data === null || data === void 0 ? void 0 : data.nullSubject) !== null && _a !== void 0 ? _a : { name: "NULL2" };
+            s.setId((_b = raw_s === null || raw_s === void 0 ? void 0 : raw_s.id) !== null && _b !== void 0 ? _b : null);
             s.setName(raw_s === null || raw_s === void 0 ? void 0 : raw_s.name);
             s.setPeriod(null);
-            s.setRoomId(raw_s === null || raw_s === void 0 ? void 0 : raw_s.roomId);
+            s.setRoomId((_c = raw_s === null || raw_s === void 0 ? void 0 : raw_s.roomId) !== null && _c !== void 0 ? _c : null);
             s.setStartTime(0);
-            s.setTeacher(raw_s === null || raw_s === void 0 ? void 0 : raw_s.teacher);
-            s.setWidth(raw_s === null || raw_s === void 0 ? void 0 : raw_s.width);
-            s.setClassroomUrl(raw_s === null || raw_s === void 0 ? void 0 : raw_s.classroom);
-            s.setMeetUrl(raw_s === null || raw_s === void 0 ? void 0 : raw_s.meet);
+            s.setTeacher((_d = raw_s === null || raw_s === void 0 ? void 0 : raw_s.teacher) !== null && _d !== void 0 ? _d : null);
+            s.setWidth((_e = raw_s === null || raw_s === void 0 ? void 0 : raw_s.width) !== null && _e !== void 0 ? _e : 0);
+            s.setClassroomUrl((_f = raw_s === null || raw_s === void 0 ? void 0 : raw_s.classroom) !== null && _f !== void 0 ? _f : null);
+            s.setMeetUrl((_g = raw_s === null || raw_s === void 0 ? void 0 : raw_s.meet) !== null && _g !== void 0 ? _g : null);
             return s;
-        })(json));
+        })(object));
         // set Data from subjectList.
         // loop day 0 to 6.
         showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
-            let f = new Function('data', `return data.subjectList._${i};`);
-            let sl = f(json);
-            (sl === null || sl === void 0 ? void 0 : sl.startTime) && this.get(i).setStartTime(sl === null || sl === void 0 ? void 0 : sl.startTime);
             this.get(i).setNullSubject(this.getNullSubject());
-            if (!Array.isArray(sl.subjectList) || sl.subjectList.length == 0)
+            let f = new Function('data', `return data.subjectList._${i};`);
+            let sl = f(object);
+            (sl === null || sl === void 0 ? void 0 : sl.startTime) && this.get(i).setStartTime(sl === null || sl === void 0 ? void 0 : sl.startTime);
+            if (!Array.isArray(sl === null || sl === void 0 ? void 0 : sl.subjectList) || (sl === null || sl === void 0 ? void 0 : sl.subjectList.length) == 0)
                 continue;
-            showMessage && console.log(`#===============[Day ${i}]===============#`);
+            showMessage && console.log(`#===============[Day ${i}]================#`);
             let s = [];
             let k = 0;
             // loop subject in subjectList.
@@ -325,13 +327,13 @@ class ClassData {
                 let raw_object = j;
                 let si = new Subject();
                 si.setName(raw_object === null || raw_object === void 0 ? void 0 : raw_object.name);
-                si.setId(raw_object === null || raw_object === void 0 ? void 0 : raw_object.id);
+                si.setId((_a = raw_object === null || raw_object === void 0 ? void 0 : raw_object.id) !== null && _a !== void 0 ? _a : null);
                 si.setPeriod(k);
-                si.setRoomId(raw_object === null || raw_object === void 0 ? void 0 : raw_object.roomId);
-                si.setTeacher(raw_object === null || raw_object === void 0 ? void 0 : raw_object.teacher);
-                si.setWidth(raw_object === null || raw_object === void 0 ? void 0 : raw_object.width);
-                si.setClassroomUrl(raw_object === null || raw_object === void 0 ? void 0 : raw_object.classroom);
-                si.setMeetUrl(raw_object.meet);
+                si.setRoomId((_b = raw_object === null || raw_object === void 0 ? void 0 : raw_object.roomId) !== null && _b !== void 0 ? _b : null);
+                si.setTeacher((_c = raw_object === null || raw_object === void 0 ? void 0 : raw_object.teacher) !== null && _c !== void 0 ? _c : null);
+                si.setWidth((_d = raw_object === null || raw_object === void 0 ? void 0 : raw_object.width) !== null && _d !== void 0 ? _d : 0);
+                si.setClassroomUrl((_e = raw_object === null || raw_object === void 0 ? void 0 : raw_object.classroom) !== null && _e !== void 0 ? _e : null);
+                si.setMeetUrl((_f = raw_object.meet) !== null && _f !== void 0 ? _f : null);
                 s.push(si);
                 k++;
                 showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
@@ -339,7 +341,7 @@ class ClassData {
             this.get(i).setSubject(s);
             showMessage && console.log("#======================================#\n");
         }
-        this.oldRawData = json;
+        this.oldRawData = object;
     }
     /**
      * @deprecated
@@ -404,7 +406,7 @@ class SubjectDay {
     constructor(day) {
         this.subjects = [];
         this.startTime = 0;
-        this.nullSubject = new Subject("NULL");
+        this.nullSubject = new Subject("NULL1");
         if (!Number.isInteger(day))
             throw new TypeError("Parameter ต้องเป็นจำนวนเต็ม");
         this.day = day;
@@ -499,14 +501,12 @@ class SubjectDay {
         // in < 500 => -1
         // in 500-549 => 0
         // in 550-599 => 1...
-        if (timeminute < this.getStartTime() || this.subjects.length == 0) {
+        if (timeminute < this.getStartTime() || this.subjects.length == 0)
             return -1;
-        }
         let p = 0;
         for (let i of this.getSubjectList()) {
-            if (i.getStartTime() <= timeminute && timeminute < i.getEndTime()) {
+            if (i.getStartTime() <= timeminute && timeminute < i.getEndTime())
                 return p;
-            }
             p++;
         }
         return p;
@@ -544,7 +544,7 @@ function getTimeMinute(date) {
  * @author Sittipat Tepsutar
  * @see getDateFromMinute
  */
-function getLocalTimeStringFromMinute(minute) {
+function getLocaleTimeStringFromMinute(minute) {
     if (minute == Infinity)
         return "???";
     let pad = (d) => (d < 10) ? '0' + d.toString() : d.toString();

@@ -1,44 +1,45 @@
+import { RawClassData, RawSubjectDay } from './utils/interfaces.js';
 const dayMinutes = 1439;
 export class Subject {
     private width: number = 0;
     private startTime: number = 0;
     private period: number | null = -1;
-    private name: string | null = "";
-    private id: string | null = "";
-    private roomId: string | null = "";
-    private teacher: string[] | null = [];
+    private name: string | null = null;
+    private id: string | null = null;
+    private roomId: string | null = null
+    private teacher: string[] | null = null;
     private classroom: string | null = null;
     private meet: string | null = null;
     constructor(name?: string) {
         if (name) this.name = name;
     }
     /**
-     *
+     * ตั้ง id.
      * @param {string} id รหัสวิชา.
      */
-    public setId(id: string): void {
+    public setId(id: string | null): void {
         this.id = id;
     }
     /**
-     *
+     * ตั้งชื่อวิชา.
      * @param {string} name ชื่อวิชา.
      */
     public setName(name: string): void {
-        if (typeof name != "string") throw new TypeError("Parameter ต้องเป็น string.");
+        if (typeof name != "string") throw new TypeError("Parameter ต้องเป็น string. : " + name);
         this.name = name;
     }
     /**
      *
      * @param  {string[]} teacher รายชื่อครูประจำวิชา (array).
      */
-    public setTeacher(teacher: string[]): void {
+    public setTeacher(teacher: string[] | null): void {
         this.teacher = teacher;
     }
     /**
      *
      * @param {string} roomId ชื่อห้องเรียนหรือรหัสห้องเรียน.
      */
-    public setRoomId(roomId: string): void {
+    public setRoomId(roomId: string | null): void {
         this.roomId = roomId;
     }
     /**
@@ -65,14 +66,14 @@ export class Subject {
      *
      * @param {string} url url ห้องเรียน
      */
-    public setClassroomUrl(url: string): void {
+    public setClassroomUrl(url: string | null): void {
         this.classroom = url;
     }
     /**
      *
      * @param {string} url url เข้าห้องประชุม
      */
-    public setMeetUrl(url: string): void {
+    public setMeetUrl(url: string | null): void {
         this.meet = url;
     }
     /**
@@ -177,7 +178,7 @@ export class Subject {
         return this.startTime;
     }
     public getLocaleStartTime(): string {
-        return getLocalTimeStringFromMinute(this.getStartTime());
+        return getLocaleTimeStringFromMinute(this.getStartTime());
     }
     /**
      *
@@ -187,7 +188,7 @@ export class Subject {
         return this.startTime + this.width;
     }
     public getLocaleEndTime(): string {
-        return getLocalTimeStringFromMinute(this.getEndTime());
+        return getLocaleTimeStringFromMinute(this.getEndTime());
     }
     public getLocaleTime(): string {
         return `${this.getLocaleStartTime()}-${this.getLocaleEndTime()}`;
@@ -234,10 +235,10 @@ export class ClassData {
     public currentSubject: Subject | null = new Subject();
     /**
     * 
-    * @param {any} data 
+    * @param {RawClassData} data 
     * @param {Boolean} showMessage false is default.
     */
-    public update(showMessage: boolean = false, data: any = this.oldRawData): void {
+    public update(showMessage: boolean = false, data: RawClassData = this.oldRawData): void {
         this.currentDate = new Date();
         this.currentDay = this.currentDate.getDay();
         // SET DATA
@@ -288,36 +289,36 @@ export class ClassData {
     /**
      * สามารถโหลดหรือดูตัวอย่างข้อมูลดิบที่จะนำมาใส่ใน parameter ของฟังก์ชันนี้ได้ที่.
      *  - https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
-     * @param {any} json ข้อมูลดิบ.
+     * @param {RawClassData} object ข้อมูลดิบ.
      * @param {boolean} showMessage
      */
-    public setData(json: any, showMessage: boolean = false): void {
-        this.setClassId(json.classId);
-        this.setClassName(json.className);
+    public setData(object: RawClassData, showMessage: boolean = false): void {
+        this.setClassId(object.classId);
+        this.setClassName(object.className);
         this.setNullSubject((function (data) {
             let s = new Subject();
-            let raw_s = data?.nullSubject;
-            s.setId(raw_s?.id);
+            let raw_s = data?.nullSubject ?? { name: "NULL" };
+            s.setId(raw_s?.id ?? null);
             s.setName(raw_s?.name);
             s.setPeriod(null);
-            s.setRoomId(raw_s?.roomId);
+            s.setRoomId(raw_s?.roomId ?? null);
             s.setStartTime(0);
-            s.setTeacher(raw_s?.teacher);
-            s.setWidth(raw_s?.width);
-            s.setClassroomUrl(raw_s?.classroom);
-            s.setMeetUrl(raw_s?.meet);
+            s.setTeacher(raw_s?.teacher ?? null);
+            s.setWidth(raw_s?.width ?? 0);
+            s.setClassroomUrl(raw_s?.classroom ?? null);
+            s.setMeetUrl(raw_s?.meet ?? null);
             return s;
-        })(json));
+        })(object));
         // set Data from subjectList.
         // loop day 0 to 6.
         showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
-            let f = new Function('data', `return data.subjectList._${i};`);
-            let sl: { startTime: number, subjectList: any[] } = f(json);
-            sl?.startTime && this.get(i).setStartTime(sl?.startTime);
             this.get(i).setNullSubject(this.getNullSubject());
-            if (!Array.isArray(sl.subjectList) || sl.subjectList.length == 0) continue;
-            showMessage && console.log(`#===============[Day ${i}]===============#`);
+            let f = new Function('data', `return data.subjectList._${i};`);
+            let sl: RawSubjectDay = f(object);
+            sl?.startTime && this.get(i).setStartTime(sl?.startTime);
+            if (!Array.isArray(sl?.subjectList) || sl?.subjectList.length == 0) continue;
+            showMessage && console.log(`#===============[Day ${i}]================#`);
             let s: Subject[] = [];
             let k = 0;
             // loop subject in subjectList.
@@ -325,13 +326,13 @@ export class ClassData {
                 let raw_object = j;
                 let si = new Subject();
                 si.setName(raw_object?.name);
-                si.setId(raw_object?.id);
+                si.setId(raw_object?.id ?? null);
                 si.setPeriod(k);
-                si.setRoomId(raw_object?.roomId);
-                si.setTeacher(raw_object?.teacher);
-                si.setWidth(raw_object?.width);
-                si.setClassroomUrl(raw_object?.classroom);
-                si.setMeetUrl(raw_object.meet);
+                si.setRoomId(raw_object?.roomId ?? null);
+                si.setTeacher(raw_object?.teacher ?? null);
+                si.setWidth(raw_object?.width ?? 0);
+                si.setClassroomUrl(raw_object?.classroom ?? null);
+                si.setMeetUrl(raw_object.meet ?? null);
                 s.push(si);
                 k++;
                 showMessage && console.log(`>> Stored ${i} ${k} ${si.getLocaleId()} ${si.getLocaleName()}`);
@@ -339,7 +340,7 @@ export class ClassData {
             this.get(i).setSubject(s);
             showMessage && console.log("#======================================#\n");
         }
-        this.oldRawData = json;
+        this.oldRawData = object;
     }
     /**
      * @deprecated
@@ -407,7 +408,7 @@ export class SubjectDay {
     private subjects: Subject[] = [];
     private day: number;
     private startTime: number = 0;
-    private nullSubject: Subject = new Subject("NULL");
+    private nullSubject: Subject = new Subject("NULL CODE 1");
 
     /**
      * อัพเดตเวลาแต่ละคาบของวันนี้.
@@ -438,7 +439,15 @@ export class SubjectDay {
         return this.nullSubject;
     }
     /**
-     *
+     * ระบบมองว่าวิชาไม่มีเป็นวิชาดังตัวอย่าง
+     * ```js
+     * //ภายใน thisDay มีทั้งหมด 8 วิชา เรียกวิชาแรกด้วย thisDay.getSubject(0) และวิชาสุดท้ายด้วย thisDay.getSubject(7)
+     * thisDay.getSubject(-1); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือ 0:00น. และจบที่ startTime ของ thisDay.
+     * thisDay.getSubject(7); // จะได้วิชาปกติจาก thisDay ในที่นี้จะเป็นวิชาสุดท้ายของ thisDay.
+     * thisDay.getSubject(8); // จะได้วิชาจาก nullSubject โดยมีเวลาเริ่มต้นคือเวลาจบของวิชาสุดท้ายจนถึง 23:59น.
+     * thisDay.getSubject(9); // จะได้ null.
+     * thisDay.getSubject(-2); // จะได้ null.
+     * ```
      * @param {number} p คาบเรียน index.
      * @returns {Subject} วิชา.
      */
@@ -498,14 +507,10 @@ export class SubjectDay {
         // in < 500 => -1
         // in 500-549 => 0
         // in 550-599 => 1...
-        if (timeminute < this.getStartTime() || this.subjects.length == 0) {
-            return -1;
-        }
+        if (timeminute < this.getStartTime() || this.subjects.length == 0) return -1;
         let p = 0;
         for (let i of this.getSubjectList()) {
-            if (i.getStartTime() <= timeminute && timeminute < i.getEndTime()) {
-                return p;
-            }
+            if (i.getStartTime() <= timeminute && timeminute < i.getEndTime()) return p;
             p++;
         }
         return p;
@@ -543,7 +548,7 @@ function getTimeMinute(date: Date): number {
  * @author Sittipat Tepsutar
  * @see getDateFromMinute
  */
-function getLocalTimeStringFromMinute(minute: number): string {
+function getLocaleTimeStringFromMinute(minute: number): string {
     if (minute == Infinity) return "???";
     let pad = (d: number) => (d < 10) ? '0' + d.toString() : d.toString();
     let t1 = getDateFromMinute(minute);
