@@ -121,5 +121,11 @@ declare const haosj: {
      * @param data ข้อมูล
      */
     isReadable(data: any): boolean;
+    /**
+     * เปลี่ยน Obj เป็นห้องเรียนแล้วส่งกลับห้องเรียน.
+     * @param {RawClassData} obj
+     * @param {boolean} showMessage
+     */
+    getClassByObj(obj: RawClassData, showMessage?: boolean): ClassData;
 };
 export default haosj;

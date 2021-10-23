@@ -155,6 +155,16 @@ const haosj = {
         } catch {
             return false;
         }
+    },
+    /**
+     * เปลี่ยน Obj เป็นห้องเรียนแล้วส่งกลับห้องเรียน.
+     * @param {RawClassData} obj
+     * @param {boolean} showMessage
+     */
+    getClassByObj(obj: RawClassData, showMessage: boolean = false) {
+        let c = new ClassData();
+        c.update(showMessage, obj);
+        return c;
     }
 }
 export default haosj;
