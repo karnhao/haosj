@@ -309,8 +309,10 @@ export class ClassData {
             let f = new Function('data', `return data.subjectList._${i};`);
             let sl = f(object);
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
-            if (!Array.isArray(sl?.subjectList) || sl?.subjectList.length == 0)
+            if (!Array.isArray(sl?.subjectList) || sl?.subjectList.length == 0) {
+                this.get(i).clearSubject();
                 continue;
+            }
             showMessage && console.log(`#===============[Day ${i}]================#`);
             let s = [];
             let k = 0;
@@ -526,6 +528,12 @@ export class SubjectDay {
     }
     getDay() {
         return this.day;
+    }
+    /**
+     * ลบวิชาทั้งหมดออกจากวันนี้
+     */
+    clearSubject() {
+        this.subjects = [];
     }
 }
 /**

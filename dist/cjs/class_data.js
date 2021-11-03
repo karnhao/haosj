@@ -317,8 +317,10 @@ class ClassData {
             let f = new Function('data', `return data.subjectList._${i};`);
             let sl = f(object);
             (sl === null || sl === void 0 ? void 0 : sl.startTime) && this.get(i).setStartTime(sl === null || sl === void 0 ? void 0 : sl.startTime);
-            if (!Array.isArray(sl === null || sl === void 0 ? void 0 : sl.subjectList) || (sl === null || sl === void 0 ? void 0 : sl.subjectList.length) == 0)
+            if (!Array.isArray(sl === null || sl === void 0 ? void 0 : sl.subjectList) || (sl === null || sl === void 0 ? void 0 : sl.subjectList.length) == 0) {
+                this.get(i).clearSubject();
                 continue;
+            }
             showMessage && console.log(`#===============[Day ${i}]================#`);
             let s = [];
             let k = 0;
@@ -534,6 +536,12 @@ class SubjectDay {
     }
     getDay() {
         return this.day;
+    }
+    /**
+     * ลบวิชาทั้งหมดออกจากวันนี้
+     */
+    clearSubject() {
+        this.subjects = [];
     }
 }
 exports.SubjectDay = SubjectDay;

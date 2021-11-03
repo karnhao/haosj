@@ -1,6 +1,6 @@
 {
   "name": "haosj",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Rabbit cute",
   "main": "dist/cjs/index.js",
   "types": "dist/mjs/index.d.ts",

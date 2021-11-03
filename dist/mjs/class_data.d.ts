@@ -271,4 +271,8 @@ export declare class SubjectDay {
      */
     getLocaleSubjectList(): string;
     getDay(): number;
+    /**
+     * ลบวิชาทั้งหมดออกจากวันนี้
+     */
+    clearSubject(): void;
 }
