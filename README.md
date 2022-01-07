@@ -1,6 +1,7 @@
 
 # HaoSubject
 [![Node.js CI](https://github.com/karnhao/haosj/actions/workflows/node.js.yml/badge.svg)](https://github.com/karnhao/haosj/actions/workflows/node.js.yml)
+[![npm version](https://badge.fury.io/js/haosj.svg)](https://badge.fury.io/js/haosj)
 
 โดย สิทธิภัทท์ เทพสุธา ที่ชอบ[กระต่าย](https://th.wikipedia.org/wiki/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%A2)🐇มากๆ
 
