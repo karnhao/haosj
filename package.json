@@ -29,7 +29,8 @@
     "node-fetch": "^2.6.1"
   },
   "scripts": {
-    "hbuild": "rd /s /q dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && f.bat"
+    "hbuild": "rd /s /q dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && f.bat",
+    "test": "echo \"Hello world\" && exit 1"
   },
   "exports": {
     ".": {
