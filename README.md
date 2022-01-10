@@ -1,9 +1,12 @@
+<h1 align=center>Haosj (HaoSubject)</h1>
 
-# HaoSubject
-[![Node.js CI](https://github.com/karnhao/haosj/actions/workflows/node.js.yml/badge.svg)](https://github.com/karnhao/haosj/actions/workflows/node.js.yml)
-[![npm version](https://badge.fury.io/js/haosj.svg)](https://badge.fury.io/js/haosj)
+<p align=center>
+  <img src="https://github.com/karnhao/haosj/actions/workflows/node.js.yml/badge.svg" href="https://github.com/karnhao/haosj/actions/workflows/node.js.yml">
+  <img src="https://badge.fury.io/js/haosj.svg" href="https://badge.fury.io/js/haosj">
+  <p align=center>โดย สิทธิภัทท์ เทพสุธา ที่ชอบ<a href="https://th.wikipedia.org/wiki/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%A2">กระต่าย</a>🐇มากๆ</p>
+</p>
 
-โดย สิทธิภัทท์ เทพสุธา ที่ชอบ[กระต่าย](https://th.wikipedia.org/wiki/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%A2)🐇มากๆ
+
 
 ### ติดตั้ง 
 ```
