@@ -306,7 +306,9 @@ export class ClassData {
         showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
             this.get(i).setNullSubject(this.getNullSubject());
-            let f = new Function('data', `return data.subjectList._${i};`);
+            let f = new Function('data', `return data.${(object.subjectDays != null) ? "subjectDays" : "subjectList"}._${i};`);
+            if (object.subjectList != null)
+                console.warn("subjectList property is deprecated! use subjectDays instead.");
             let sl = f(object);
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
             if (!Array.isArray(sl?.subjectList) || sl?.subjectList.length == 0) {

@@ -1,4 +1,5 @@
-import { ClassData } from "./class_data.js";
+import { ClassData, Subject, SubjectDay } from "./class_data.js";
+import { useExampleUrlData, useUrlData } from "./utils/functions.js";
 var classes = new Map();
 /**
  * # [HaoSubject](https://youtu.be/QtBDL8EiNZo)
@@ -9,31 +10,7 @@ var classes = new Map();
  *
  * ตัวอย่างการใช้งาน :
  * ```js
- * import haosj, { useUrlData } from "haosj";
- *
- * // ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
- * await useUrlData("class1", "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", false);
- *
- * // ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก yourSaveData.
- * haosj.setClassRaw("class2", yourSaveData);
- *
- * // ให้ตัวแปร class1 เป็นห้องเรียนจาก id class1.
- * const class1 = haosj.getClass("class1");
- *
- * // ให้ตัวแปร subject1 เป็นวิชา ณ ปัจจุบัน ของห้องเรียน class1.
- * var subject1 = class1.getSubjectByDate(new Date());
- *
- * // ให้ตัวแปร subject2 เป็นวิชาในคาบที่ 3 ของวันจันทร์ ของห้องเรียน class1.
- * var subject2 = class1.get(1).getSubject(2);
- *
- * //แสดงชื่อวิชา.
- * console.log(subject2.getName());
- *
- * //แสดงรหัสห้องเรียน (ห้องเรียนของวิชานี้).
- * console.log(subject2.getRoomId());
- *
- * //แสดงรายชื่อครูในวิชานี้.
- * console.log(subject2.getLocaleTeacherName());
+ * import haosj from "haosj";
  * ```
  *
  * ## Property อำนวยความสะดวก
@@ -54,10 +31,10 @@ var classes = new Map();
  *
  * ## ฟังก์ชันอำนวยความสะดวก
  * ```js
- * // โหลดข้อมูลวิชาแล้ว update ให้เลยอัตโนมัติ (เป็น asynchonous ฟังก์ชัน) ส่งออก Promise<ข้อมูลดิบ>
+ * // โหลดข้อมูลวิชาแล้ว update ให้เลยอัตโนมัติ (เป็น asynchonous ฟังก์ชัน) ส่งออก Promise<ClassData>
  * useUrlData(url);
  *
- * // โหลดข้อมูลวิชาจาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json แล้ว update ให้เลยอัตโนมัติ (เป็น asynchonous ฟังก์ชัน) ส่งออก Promise<ข้อมูลดิบ>
+ * // โหลดข้อมูลวิชาจาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json แล้ว update ให้เลยอัตโนมัติ (เป็น asynchonous ฟังก์ชัน) ส่งออก Promise<ClassData>
  * useExampleUrlData(url);
  * ```
  *
@@ -65,6 +42,11 @@ var classes = new Map();
  * ![Construction](https://raw.githubusercontent.com/karnhao/haosj/main/src/images/haosj.png)
  */
 const haosj = {
+    ClassData,
+    Subject,
+    SubjectDay,
+    useExampleUrlData,
+    useUrlData,
     /**
      * ขอห้องเรียนโดยใช้ id.
      * @param id

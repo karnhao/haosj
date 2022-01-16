@@ -20,29 +20,44 @@ npm i haosj
 ```js
 import haosj, { useUrlData } from "haosj";
 
-// ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json
-await useUrlData("class1", "https://raw.githubusercontent.com/karnhao/HaoWidget/main/subject_data/6-10/6-10.json", false);
+//ให้ c คือห้องเรียนที่โหลดข้อมูลดิบจากที่อยู่ตัวอย่าง
+let c = await haosj.useExampleUrlData();
 
-// ให้ห้องเรียนที่มี id คือ class1 ใช้ข้อมูลแบบ json จาก yourSaveData.
-haosj.setClassRaw("class2", yourSaveData);
+//ใช้ subject คือวิชาในวันจันทร์คาบที่ 4
+let subject = c.get(1).getSubject(3);
 
-// ให้ตัวแปร class1 เป็นห้องเรียนจาก id class1.
-const class1 = haosj.getClass("class1");
+//แสดงชื่อและห้องเรียนของวิชา
+console.log(subject.getName());
+console.log(subject.getRoomId());
+```
 
-// ให้ตัวแปร subject1 เป็นวิชา ณ ปัจจุบัน ของห้องเรียน class1.
-var subject1 = class1.getSubjectByDate(new Date());
+<hr>
 
-// ให้ตัวแปร subject2 เป็นวิชาในคาบที่ 3 ของวันจันทร์ ของห้องเรียน class1.
-var subject2 = class1.get(1).getSubject(2);
-
-//แสดงชื่อวิชา.
-console.log(subject2.getName());
-
-//แสดงรหัสห้องเรียน (ห้องเรียนของวิชานี้).
-console.log(subject2.getRoomId());
-
-//แสดงรายชื่อครูในวิชานี้.
-console.log(subject2.getLocaleTeacherName());
+ตัวอย่างการสร้างห้องเรียนจาก object :
+```js
+//สร้างห้องเรียนจาก object
+let c = haosj.getClassByObj({
+    classId: "c72610",
+    className: "ม.6/10 รุ่น 72 โรงเรียนสารวิทยา",
+    nullSubject: {
+        name: "❌ไม่มี"
+    },
+    subjectDays: {
+        _1: {
+            startTime: 500,
+            subjectList: [
+                {
+                    name: "Math",
+                    width: 50
+                },
+                {
+                    name: "Physic",
+                    width: 100
+                }
+            ]
+        }
+    }
+});
 ```
 
 ## Property อำนวยความสะดวก
@@ -70,5 +85,6 @@ useUrlData(url);
 useExampleUrlData(url);
 ```
 
-## Construction
-![Construction](https://raw.githubusercontent.com/karnhao/haosj/main/src/images/haosj.png)
+## Accessing Data การเข้าถึงข้อมูลต่างๆ
+
+![Access](https://raw.githubusercontent.com/karnhao/haosj/main/src/images/haosj.png)
