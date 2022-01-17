@@ -72,7 +72,7 @@ export interface RawClassData {
     /**
      * ตั้งวิชาและเวลาเริ่มต้นคาบแรกของวัน monday tuesday wednesday thursday friday saturday sunday
      */
-    subjectList: {
+    subjectDays: {
         /**
          * Sunday พรุ่งนี้วันจันทร์แล้วหรอเนี่ย!?
          */
@@ -129,6 +129,21 @@ export interface RawClassData {
          * 
          * กระต่ายเป็นสัตว์ที่จัดอยู่ใน[ไฟลัม](https://th.wikipedia.org/wiki/%E0%B9%84%E0%B8%9F%E0%B8%A5%E0%B8%B1%E0%B8%A1)[สัตว์มีกระดูกสันหลัง](https://th.wikipedia.org/wiki/%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B8%A7%E0%B9%8C%E0%B8%A1%E0%B8%B5%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B9%E0%B8%81%E0%B8%AA%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87) ชั้น[สัตว์เลี้ยงลูกด้วยนม](https://th.wikipedia.org/wiki/%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B8%A7%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%B5%E0%B9%89%E0%B8%A2%E0%B8%87%E0%B8%A5%E0%B8%B9%E0%B8%81%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2%E0%B8%99%E0%B8%A1) [อันดับกระต่าย](https://th.wikipedia.org/wiki/Lagomorpha) ในวงศ์ [Leporidae](https://th.wikipedia.org/wiki/Leporidae).
          */
+        _6?: RawSubjectDay
+    },
+    /**
+     * @deprecated
+     * เปลี่ยนไปใช้ subjectDays แทน
+     * 
+     * use subjectDays instead.
+     */
+    subjectList: {
+        _0?: RawSubjectDay,
+        _1?: RawSubjectDay,
+        _2?: RawSubjectDay,
+        _3?: RawSubjectDay,
+        _4?: RawSubjectDay,
+        _5?: RawSubjectDay,
         _6?: RawSubjectDay
     }
 }

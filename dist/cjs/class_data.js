@@ -314,13 +314,15 @@ class ClassData {
         showMessage && console.log("Storing subject to memory...");
         for (let i = 0; i < 7; i++) {
             this.get(i).setNullSubject(this.getNullSubject());
-            let f = new Function('data', `return data.subjectList._${i};`);
+            let f = new Function('data', `return data.${(object.subjectDays != null) ? "subjectDays" : "subjectList"}._${i};`);
             let sl = f(object);
             (sl === null || sl === void 0 ? void 0 : sl.startTime) && this.get(i).setStartTime(sl === null || sl === void 0 ? void 0 : sl.startTime);
             if (!Array.isArray(sl === null || sl === void 0 ? void 0 : sl.subjectList) || (sl === null || sl === void 0 ? void 0 : sl.subjectList.length) == 0) {
                 this.get(i).clearSubject();
                 continue;
             }
+            if (object.subjectList != null)
+                console.warn(`subjectList property is deprecated! use subjectDays instead. at ${object.classId} ${object.className} _${i}`);
             showMessage && console.log(`#===============[Day ${i}]================#`);
             let s = [];
             let k = 0;
