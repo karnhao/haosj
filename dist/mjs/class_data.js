@@ -314,7 +314,7 @@ export class ClassData {
                 continue;
             }
             if (object.subjectList != null)
-                console.warn(`subjectList property is deprecated! use subjectDays instead. at ${object.classId} ${object.className} _${i}`);
+                console.warn(`subjectList property is deprecated! Use subjectDays instead. at ${object.classId} ${object.className} _${i}`);
             showMessage && console.log(`#===============[Day ${i}]================#`);
             let s = [];
             let k = 0;
