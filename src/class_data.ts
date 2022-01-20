@@ -320,7 +320,7 @@ export class ClassData {
             sl?.startTime && this.get(i).setStartTime(sl?.startTime);
             if (!Array.isArray(sl?.subjectList) || sl?.subjectList.length == 0) { this.get(i).clearSubject(); continue }
             if (object.subjectList != null) console.warn(
-                `subjectList property is deprecated! use subjectDays instead. at ${object.classId} ${object.className} _${i}`);
+                `subjectList property is deprecated! Use subjectDays instead. at ${object.classId} ${object.className} _${i}`);
             showMessage && console.log(`#===============[Day ${i}]================#`);
             let s: Subject[] = [];
             let k = 0;
