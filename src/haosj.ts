@@ -10,11 +10,6 @@ var classes = new Map<string, ClassData>();
  */
 const haosj = {
 
-    //Classes
-    ClassData,
-    Subject,
-    SubjectDay,
-
     //Functions
     useExampleUrlData,
     useUrlData,

@@ -1,4 +1,4 @@
-import { ClassData, Subject, SubjectDay } from "./class_data.js";
+import { ClassData } from "./class_data.js";
 import { RawClassData } from "./utils/interfaces.js";
 import { useExampleUrlData, useUrlData } from "./utils/functions.js";
 /**
@@ -7,9 +7,6 @@ import { useExampleUrlData, useUrlData } from "./utils/functions.js";
  * เข้าไปดู[ลายละเอียด](https://raw.githubusercontent.com/karnhao/haosj/main/README.md)
  */
 declare const haosj: {
-    ClassData: typeof ClassData;
-    Subject: typeof Subject;
-    SubjectDay: typeof SubjectDay;
     useExampleUrlData: typeof useExampleUrlData;
     useUrlData: typeof useUrlData;
     /**

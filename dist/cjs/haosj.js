@@ -9,10 +9,6 @@ var classes = new Map();
  * เข้าไปดู[ลายละเอียด](https://raw.githubusercontent.com/karnhao/haosj/main/README.md)
  */
 const haosj = {
-    //Classes
-    ClassData: class_data_js_1.ClassData,
-    Subject: class_data_js_1.Subject,
-    SubjectDay: class_data_js_1.SubjectDay,
     //Functions
     useExampleUrlData: functions_js_1.useExampleUrlData,
     useUrlData: functions_js_1.useUrlData,

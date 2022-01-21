@@ -1,4 +1,4 @@
-import { ClassData, Subject, SubjectDay } from "./class_data.js";
+import { ClassData } from "./class_data.js";
 import { useExampleUrlData, useUrlData } from "./utils/functions.js";
 var classes = new Map();
 /**
@@ -7,10 +7,6 @@ var classes = new Map();
  * เข้าไปดู[ลายละเอียด](https://raw.githubusercontent.com/karnhao/haosj/main/README.md)
  */
 const haosj = {
-    //Classes
-    ClassData,
-    Subject,
-    SubjectDay,
     //Functions
     useExampleUrlData,
     useUrlData,
