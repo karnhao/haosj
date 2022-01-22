@@ -18,7 +18,7 @@ npm i haosj
 
 ตัวอย่างการใช้งาน :
 ```js
-import haosj, { useUrlData } from "haosj";
+import haosj from "haosj";
 
 //ให้ c คือห้องเรียนที่โหลดข้อมูลดิบจากที่อยู่ตัวอย่าง
 let c = await haosj.useExampleUrlData();
